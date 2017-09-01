@@ -1,16 +1,19 @@
 let Player = require('./player');
+let Feld = require('./feld');
 
 module.exports = class Schiffeversenken {
-  constructor() {
+  constructor(options) {
+    this.options = options || {};
     this.players = [];
     this.winner;
     this.whoseTurn;
     this.started = false;
   }
 
-  addPlayer(p) {
+  addPlayer(id) {
     if (Object.keys(this.players).length < 2) {
-      this.players[p.id] = p;
+      this.players[id] = new Player(id);
+      this.getPlayerById(id).feld = new Feld(this.options);
     }
   }
 
@@ -103,6 +106,10 @@ module.exports = class Schiffeversenken {
     if (source.feld.SHIPPOSCOUNTER == source.feld.hits.length) {
       res.gameOver = true;
       this.winner = source.id;
+    } else {
+      if (!source.feld.SAMEPLAYERSTURNAFTERHIT){
+        this.whoseTurn = this.getOpponent(source).id;
+      }
     }
     return res;
 

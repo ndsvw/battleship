@@ -5,8 +5,9 @@ var Schiffeversenken = require('../src/schiffeversenken');
 
 createExampleSchiffeversenken = () => {
   let s = new Schiffeversenken();
-  let p1 = new Player("playerID1")
-  let p2 = new Player("playerID2")
+
+  s.addPlayer("playerID1");
+  s.addPlayer("playerID2");
 
   let ships = [];
   ships = ships.concat([0, 1, 2, 3, 4]);
@@ -14,7 +15,7 @@ createExampleSchiffeversenken = () => {
   ships = ships.concat([20, 21, 22, 23]);
   ships = ships.concat([41, 51, 61]);
   ships = ships.concat([55, 65]);
-  p1.feld.setShips(ships);
+  s.getPlayerById("playerID1").feld.setShips(ships);
 
   ships = [];
   ships = ships.concat([67, 77]);
@@ -22,10 +23,7 @@ createExampleSchiffeversenken = () => {
   ships = ships.concat([0, 1, 2]);
   ships = ships.concat([16, 17, 18]);
   ships = ships.concat([96, 97, 98, 99]);
-  p2.feld.setShips(ships);
-
-  s.addPlayer(p1);
-  s.addPlayer(p2);
+  s.getPlayerById("playerID2").feld.setShips(ships);
 
   return s;
 }
@@ -34,20 +32,16 @@ describe('schiffeversenken...', () => {
 
   it('.getPlayerById() should work,', () => {
     let s = createExampleSchiffeversenken();
-    let p1 = new Player("playerID1")
-    let p2 = new Player("playerID2")
-    s.addPlayer(p1);
-    s.addPlayer(p2);
     s.getPlayerById("playerID1").id.should.be.equal("playerID1");
   });
 
   it('.getOpponent() should work', () => {
     let s = new Schiffeversenken();
-    let p1 = new Player("playerID1")
-    let p2 = new Player("playerID2")
-    s.addPlayer(p1);
-    s.addPlayer(p2);
-    s.getOpponent(p1).id.should.be.equal(p2.id);
+
+    s.addPlayer("playerID1");
+    s.addPlayer("playerID2");
+
+    s.getOpponent(s.getPlayerById("playerID1")).id.should.be.equal(s.getPlayerById("playerID2").id);
   });
 
   it('should work (whole game)', () => {
@@ -78,13 +72,55 @@ describe('schiffeversenken...', () => {
 
   });
 
+  it('should work (whole game) with other options', () => {
+    let s = new Schiffeversenken({
+      SAMEPLAYERSTURNAFTERHIT: false,
+      REQUIREDSHIPS: [0, 0, 3],
+      FIELD_HEIGHT: 5,
+      FIELD_WIDTH: 5
+    });
+
+    s.addPlayer("playerID1");
+    s.addPlayer("playerID2");
+
+    let ships = [];
+    ships = ships.concat([0, 1]);
+    ships = ships.concat([8, 9]);
+    ships = ships.concat([23, 24]);
+    s.getPlayerById("playerID1").feld.setShips(ships);
+
+    ships = [];
+    ships = ships.concat([1, 2]);
+    ships = ships.concat([15, 16]);
+    ships = ships.concat([8, 9]);
+    s.getPlayerById("playerID2").feld.setShips(ships);
+
+    s.startTheGame()
+    s.whoseTurn = "playerID1";
+
+    s.shoot("playerID1", 0);
+    s.shoot("playerID2", 0);
+    s.shoot("playerID1", 1);
+    s.shoot("playerID2", 1);
+    s.shoot("playerID1", 2);
+    s.shoot("playerID2", 8);
+    s.shoot("playerID1", 3);
+    s.shoot("playerID2", 9);
+    s.shoot("playerID1", 4);
+    s.shoot("playerID2", 23);
+    s.shoot("playerID1", 5);
+    let res = s.shoot("playerID2", 24);
+    res.gameOver.should.be.equal(true)
+  });
+
 });
 
 describe('schiffeversenken.startTheGame()', () => {
   it('should work with 2 player', () => {
     let s = new Schiffeversenken();
-    let p1 = new Player("playerID1")
-    let p2 = new Player("playerID2")
+
+    s.addPlayer("playerID1");
+    s.addPlayer("playerID2");
 
     let ships = [];
     ships = ships.concat([0, 1, 2, 3, 4]);
@@ -92,7 +128,7 @@ describe('schiffeversenken.startTheGame()', () => {
     ships = ships.concat([20, 21, 22, 23]);
     ships = ships.concat([41, 51, 61]);
     ships = ships.concat([55, 65]);
-    p1.feld.setShips(ships);
+    s.getPlayerById("playerID1").feld.setShips(ships);
 
     ships = [];
     ships = ships.concat([67, 77]);
@@ -100,17 +136,14 @@ describe('schiffeversenken.startTheGame()', () => {
     ships = ships.concat([0, 1, 2]);
     ships = ships.concat([16, 17, 18]);
     ships = ships.concat([96, 97, 98, 99]);
-    p2.feld.setShips(ships);
+    s.getPlayerById("playerID2").feld.setShips(ships);
 
-    s.addPlayer(p1);
-    s.addPlayer(p2);
     s.startTheGame().status.should.be.equal("success");
   });
 
   it('should not work with less than 2 player', () => {
     let s = new Schiffeversenken();
-    let p1 = new Player("playerID1")
-    s.addPlayer(p1);
+    s.addPlayer("playerID1");
     s.startTheGame().status.should.not.be.equal("success");
   });
 
