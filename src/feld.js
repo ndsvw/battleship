@@ -1,6 +1,7 @@
 module.exports = class Feld {
   constructor(options) {
     options = options || {};
+    this.SAMEPLAYERSTURNAFTERHIT = typeof options.SAMEPLAYERSTURNAFTERHIT === "undefined" ? true : options.SAMEPLAYERSTURNAFTERHIT;
     this.REQUIREDSHIPS = options.REQUIREDSHIPS || [0, 0, 1, 2, 1, 1]; // hier: 0x 0er, 0x 1er, 1x 2er, 2x 3er, 1x 4er, 1x 5er
     this.FIELD_HEIGHT = options.FIELD_HEIGHT || 10;
     this.FIELD_WIDTH = options.FIELD_WIDTH || 10;
