@@ -36,9 +36,13 @@ module.exports = class Feld {
     let data = this.checkShipArray(arr);
     if (data.status == "success") {
       this.ships = data.ships;
+      return {
+        status: "success"
+      }
     }
     return {
-      status: data.status
+      status: data.status,
+      reason: data.reason
     }
   }
 
