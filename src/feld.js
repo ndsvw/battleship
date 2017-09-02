@@ -15,6 +15,7 @@ module.exports = class Feld {
     }
     this.ships = [];
     this.hits = [];
+    this.misses = [];
   }
 
   isShipAt(pos) {
@@ -31,6 +32,10 @@ module.exports = class Feld {
 
   hasAlreadyBeenHit(pos) {
     return this.hits.indexOf(pos) != -1;
+  }
+
+  hasAlreadyBeenMissed(pos) {
+    return this.misses.indexOf(pos) != -1;
   }
 
   setShips(arr) {

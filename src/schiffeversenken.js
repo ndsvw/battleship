@@ -91,6 +91,9 @@ module.exports = class Schiffeversenken {
     }
 
     if (!goal.feld.isShipAt(pos)) {
+      if (!source.feld.hasAlreadyBeenMissed(pos)) {
+        source.feld.misses.push(pos);
+      }
       this.whoseTurn = this.getOpponent(source).id;
       return {
         status: "fail",
