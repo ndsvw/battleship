@@ -113,6 +113,27 @@ describe('schiffeversenken...', () => {
     res.gameOver.should.be.equal(true)
   });
 
+  it('should fill the arrays correctly during a match', () => {
+    let s = createExampleSchiffeversenken();
+    s.startTheGame();
+    s.whoseTurn = "playerID1";
+
+    s.shoot("playerID1", 0); // hit
+    s.shoot("playerID1", 1); // hit
+    s.shoot("playerID1", 2); // hit
+    s.shoot("playerID1", 3); // no hit
+    s.shoot("playerID2", 19); // no hit
+    s.shoot("playerID1", 64); // no hit
+
+    let is_hits = JSON.stringify(s.getPlayerById("playerID1").feld.hits);
+    let should_hits = JSON.stringify([0, 1, 2]);
+    let is_misses = JSON.stringify(s.getPlayerById("playerID1").feld.misses);
+    let should_misses = JSON.stringify([3, 64]);
+
+    should_hits.should.be.equal(is_hits);
+    should_misses.should.be.equal(is_misses);
+  })
+
 });
 
 describe('schiffeversenken.startTheGame()', () => {
