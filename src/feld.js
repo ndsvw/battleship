@@ -58,7 +58,7 @@ module.exports = class Feld {
     if (arr.length != this.SHIPPOSCOUNTER) {
       return {
         status: "fail",
-        reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Sffe platziert werden: " + this.getRequiredShipsListAsText()
+        reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
       }
     }
 
