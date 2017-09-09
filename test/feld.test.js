@@ -151,4 +151,18 @@ describe('feld.setShips()', () => {
     field.setShips(test);
     expect(field.ships).to.have.lengthOf(0);
   });
+
+  it('should work with other options (other field size and vertical ships)', () => {
+    let test = [];
+    test = test.concat([0, 5, 10]);
+    test = test.concat([2, 7]);
+    test = test.concat([22, 23, 24]);
+    let field = new _({
+      FIELD_HEIGHT: 5,
+      FIELD_WIDTH: 5,
+      REQUIREDSHIPS: [0, 0, 1, 2]
+    });
+    field.setShips(test).status.should.be.equal("success");
+  });
+
 });

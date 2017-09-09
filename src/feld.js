@@ -197,14 +197,14 @@ module.exports = class Feld {
       }
 
       let i = 0;
-      while (arr.indexOf(s + (i + 1) * 10) != -1) {
+      while (arr.indexOf(s + (i + 1) * this.FIELD_WIDTH) != -1) {
         i++;
       }
       if (i == 0) {
         // nicht horizontal, also vertikal
       } else {
         let newShip = [];
-        for (let j = s; j < s + (i + 1) * 10; j += 10) {
+        for (let j = s; j < s + (i + 1) * this.FIELD_WIDTH; j += this.FIELD_WIDTH) {
           newShip.push(j);
         }
         shipArray.push(newShip);
@@ -231,8 +231,8 @@ module.exports = class Feld {
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
-        forbidden_positions = this.pushPosInArray(s[i] - 10, forbidden_positions);
-        forbidden_positions = this.pushPosInArray(s[i] + 10, forbidden_positions);
+        forbidden_positions = this.pushPosInArray(s[i] - this.FIELD_WIDTH, forbidden_positions);
+        forbidden_positions = this.pushPosInArray(s[i] + this.FIELD_WIDTH, forbidden_positions);
       }
     }
 
@@ -240,8 +240,8 @@ module.exports = class Feld {
     for (let s of arrV) {
 
       // Positionen vor und hinter dem Schiff sind verboten
-      forbidden_positions = this.pushPosInArray(s[0] - 10, forbidden_positions);
-      forbidden_positions = this.pushPosInArray(s[s.length - 1] + 10, forbidden_positions);
+      forbidden_positions = this.pushPosInArray(s[0] - this.FIELD_WIDTH, forbidden_positions);
+      forbidden_positions = this.pushPosInArray(s[s.length - 1] + this.FIELD_WIDTH, forbidden_positions);
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
