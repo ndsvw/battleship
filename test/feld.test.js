@@ -41,6 +41,17 @@ describe('feld.checkShipArray()', () => {
     field.checkShipArray(test).status.should.be.equal("success");
   });
 
+  it('should accept a correct but unordered field of ships', () => {
+    let test = [];
+    test = test.concat([0, 18]);
+    test = test.concat([1, 31, 71, 97, 99]);
+    test = test.concat([98, 41, 67]);
+    test = test.concat([96, 51, 77]);
+    test = test.concat([17, 61, 16, 2]);
+    let field = new _();
+    field.checkShipArray(test).status.should.be.equal("success");
+  });
+
   it('should reject fields with less ships than required', function () {
     let test = [];
     test = test.concat([67, 77]);
@@ -106,6 +117,7 @@ describe('feld.checkShipArray()', () => {
     field.checkShipArray(test).status.should.not.be.equal("success");
   });
 });
+
 
 describe('feld.setShips()', () => {
   it('should return "success" if it works', () => {
