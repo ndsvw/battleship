@@ -131,10 +131,8 @@ module.exports = class Feld {
     }
 
 
-    // Erstelle ein Array mit (für Schiffe) vebotenen Positionen
-    let forbidden_positions = this.getForbiddenPos(shipsH, shipsV);
-
     // Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
+    let forbidden_positions = this.getForbiddenPos(shipsH, shipsV);
     for (let s of ships) {
       for (let pos of s) {
         if (forbidden_positions.indexOf(pos) != -1) {
@@ -156,43 +154,16 @@ module.exports = class Feld {
     let shipArray = [];
     let shipArrayH = [];
     let shipArrayV = [];
-    let arr_v = []; // Array, das mit Positionen vertikaler Schiffe gefüllt wird
-    // Horizontale Schiffe finden.
+    let arr_h = []; // Array, das mit den Positionen aller horizontaler Schiffe gefüllt wird
+
+    // Vertikale Schiffe finden.
     for (let s of arr) {
       // Falls die Position schon Teil eines Schiffs ist, continue
       let foundIt = false;
       for (let sh of shipArray) {
         if (sh.indexOf(s) != -1) {
           foundIt = true;
-        }
-      }
-      if (foundIt) {
-        continue;
-      }
-
-      let i = 0;
-      while (arr.indexOf(s + i + 1) != -1) {
-        i++;
-      }
-      if (i == 0) {
-        arr_v.push(s);
-      } else {
-        let newShip = [];
-        for (let j = s; j < s + i + 1; j++) {
-          newShip.push(j);
-        }
-        shipArray.push(newShip);
-        shipArrayH.push(newShip);
-      }
-    }
-
-    // Vertikale Schiffe finden.
-    for (let s of arr_v) {
-      // Falls die Position schon Teil eines Schiffs ist, continue
-      let foundIt = false;
-      for (let sh of shipArray) {
-        if (sh.indexOf(s) != -1) {
-          foundIt = true;
+          break;
         }
       }
       if (foundIt) {
@@ -204,7 +175,7 @@ module.exports = class Feld {
         i++;
       }
       if (i == 0) {
-        // nicht horizontal, also vertikal
+        arr_h.push(s);    
       } else {
         let newShip = [];
         for (let j = s; j < s + (i + 1) * this.FIELD_WIDTH; j += this.FIELD_WIDTH) {
@@ -212,6 +183,34 @@ module.exports = class Feld {
         }
         shipArray.push(newShip);
         shipArrayV.push(newShip);
+      }
+    }
+    
+    // Horizontale Schiffe finden.
+    for (let s of arr_h) {
+      // Falls die Position schon Teil eines Schiffs ist, continue
+      let foundIt = false;
+      for (let sh of shipArray) {
+        if (sh.indexOf(s) != -1) {
+          foundIt = true;
+          break;
+        }
+      }
+      if (foundIt) {
+        continue;
+      }
+
+      let i = 0;
+      while (arr.indexOf(s + i + 1) != -1) {
+        i++;
+      }
+      if (i != 0) {
+        let newShip = [];
+        for (let j = s; j < s + i + 1; j++) {
+          newShip.push(j);
+        }
+        shipArray.push(newShip);
+        shipArrayH.push(newShip);
       }
     }
 
@@ -229,8 +228,13 @@ module.exports = class Feld {
     for (let s of arrH) {
 
       // Positionen vor und hinter dem Schiff sind verboten
-      forbidden_positions = this.pushPosInArray(s[0] - 1, forbidden_positions);
-      forbidden_positions = this.pushPosInArray(s[s.length - 1] + 1, forbidden_positions);
+      if( s[0] % this.FIELD_WIDTH > 0) {
+        forbidden_positions = this.pushPosInArray(s[0] - 1, forbidden_positions);
+      }
+      
+      if ( (s[0] + 1) % this.FIELD_WIDTH > 0) {
+        forbidden_positions = this.pushPosInArray(s[s.length - 1] + 1, forbidden_positions);
+      }
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
@@ -248,8 +252,12 @@ module.exports = class Feld {
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
-        forbidden_positions = this.pushPosInArray(s[i] - 1, forbidden_positions);
-        forbidden_positions = this.pushPosInArray(s[i] + 1, forbidden_positions);
+        if( s[i] % this.FIELD_WIDTH > 0) {
+          forbidden_positions = this.pushPosInArray(s[i] - 1, forbidden_positions);
+        }
+        if( (s[i]+1) % this.FIELD_WIDTH > 0) {
+          forbidden_positions = this.pushPosInArray(s[i] + 1, forbidden_positions);
+        }
       }
     }
     return forbidden_positions;
