@@ -175,7 +175,7 @@ describe('feld.setShips()', () => {
     expect(field.ships).to.have.lengthOf(0);
   });
 
-  it('should work with other options (other field size and vertical ships)', () => {
+  it('should handle other options #1 (other field size and vertical ships)', () => {
     let test = [];
     test = test.concat([0, 5, 10]);
     test = test.concat([2, 7]);
@@ -186,6 +186,21 @@ describe('feld.setShips()', () => {
       REQUIREDSHIPS: [0, 0, 1, 2]
     });
     field.setShips(test).status.should.be.equal("success");
+  });
+
+  it('should handle other options #2 (other collision rules)', () => {
+    let test = [];
+    test = test.concat([0, 1, 2, 3, 4]);
+    test = test.concat([15, 16, 17, 18]);
+    test = test.concat([40, 41, 42]);
+    test = test.concat([69, 79, 89]);
+    test = test.concat([91, 92]);
+    let field = new _({
+      COLLISION_RULES: {
+        ALLOW_CORNER_COLLISIONS: false
+      }
+    });
+    field.setShips(test).status.should.be.equal("fail");
   });
 
 });
