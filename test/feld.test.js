@@ -41,6 +41,17 @@ describe('feld.checkShipArray()', () => {
     field.checkShipArray(test).status.should.be.equal("success");
   });
 
+  it('should accept a correct field of ships #3 (with ships at the border of the field)', () => {
+    let test = [];
+    test = test.concat([10, 11, 12, 13, 14]);
+    test = test.concat([30, 40, 50]);
+    test = test.concat([9, 19]);
+    test = test.concat([49, 59, 69]);
+    test = test.concat([93, 94, 95, 96]);
+    let field = new _();
+    field.setShips(test).status.should.be.equal("success");
+  });
+
   it('should accept a correct but unordered field of ships', () => {
     let test = [];
     test = test.concat([0, 18]);
