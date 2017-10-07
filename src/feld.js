@@ -55,7 +55,7 @@ module.exports = class Feld {
   checkShipArray(arr) {
 
     // sort ascending
-    arr.sort();
+    arr.sort( (a,b) => a-b );
 
     // Prüfen, ob alle Schiffe platziert wurden
     if (arr.length != this.SHIPPOSCOUNTER) {
