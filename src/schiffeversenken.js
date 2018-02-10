@@ -110,7 +110,7 @@ module.exports = class Schiffeversenken {
       res.gameOver = true;
       this.winner = source.id;
     } else {
-      if (!source.feld.SAMEPLAYERSTURNAFTERHIT){
+      if (!source.feld.SAMEPLAYERSTURNAFTERHIT) {
         this.whoseTurn = this.getOpponent(source).id;
       }
     }

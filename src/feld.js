@@ -58,7 +58,7 @@ module.exports = class Feld {
   checkShipArray(arr) {
 
     // sort ascending
-    arr.sort( (a,b) => a-b );
+    arr.sort((a, b) => a - b);
 
     // Prüfen, ob alle Schiffe platziert wurden
     if (arr.length != this.SHIPPOSCOUNTER) {
@@ -178,7 +178,7 @@ module.exports = class Feld {
         i++;
       }
       if (i == 0) {
-        arr_h.push(s);    
+        arr_h.push(s);
       } else {
         let newShip = [];
         for (let j = s; j < s + (i + 1) * this.FIELD_WIDTH; j += this.FIELD_WIDTH) {
@@ -188,7 +188,7 @@ module.exports = class Feld {
         shipArrayV.push(newShip);
       }
     }
-    
+
     // Horizontale Schiffe finden.
     for (let s of arr_h) {
       // Falls die Position schon Teil eines Schiffs ist, continue
@@ -231,10 +231,10 @@ module.exports = class Feld {
     for (let s of arrH) {
 
       // Positionen vor und hinter dem Schiff sind verboten
-      if( s[0] % this.FIELD_WIDTH > 0) {
+      if (s[0] % this.FIELD_WIDTH > 0) {
         forbidden_positions = this.pushPosInArray(s[0] - 1, forbidden_positions);
       }
-      if ( (s[0] + 1) % this.FIELD_WIDTH > 0) {
+      if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
         forbidden_positions = this.pushPosInArray(s[s.length - 1] + 1, forbidden_positions);
       }
 
@@ -250,7 +250,7 @@ module.exports = class Feld {
           this.pushPosInArray(s[0] - (this.FIELD_WIDTH + 1), forbidden_positions);
           this.pushPosInArray(s[0] + (this.FIELD_WIDTH - 1), forbidden_positions);
         }
-        if ( (s[0]+1) % this.FIELD_WIDTH > 0) {
+        if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
           this.pushPosInArray(s[s.length - 1] - (this.FIELD_WIDTH - 1), forbidden_positions);
           this.pushPosInArray(s[s.length - 1] + (this.FIELD_WIDTH + 1), forbidden_positions);
         }
@@ -266,10 +266,10 @@ module.exports = class Feld {
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
-        if( s[i] % this.FIELD_WIDTH > 0) {
+        if (s[i] % this.FIELD_WIDTH > 0) {
           forbidden_positions = this.pushPosInArray(s[i] - 1, forbidden_positions);
         }
-        if( (s[i]+1) % this.FIELD_WIDTH > 0) {
+        if ((s[i] + 1) % this.FIELD_WIDTH > 0) {
           forbidden_positions = this.pushPosInArray(s[i] + 1, forbidden_positions);
         }
       }
