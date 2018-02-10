@@ -57,6 +57,9 @@ module.exports = class Feld {
 
   checkShipArray(arr) {
 
+    // Duplikate eliminieren
+    arr = Array.from(new Set(arr));
+
     // sort ascending
     arr.sort((a, b) => a - b);
 
@@ -74,19 +77,6 @@ module.exports = class Feld {
         return {
           status: "fail",
           reason: "Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden."
-        }
-      }
-    }
-
-    // Prüfen, ob keine Position auf dem Spielfeld doppelt vorkommt.
-    let arr2 = [];
-    for (let s of arr) {
-      if (arr2[s] == undefined) {
-        arr2[s] = true;
-      } else {
-        return {
-          status: "fail",
-          reason: "Es ist ein Fehler aufgetreten. Mindestens ein Position des Spielfelds wurde doppelt besetzt."
         }
       }
     }
