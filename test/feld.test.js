@@ -43,6 +43,12 @@ describe('feld.checkShipArray()', () => {
     field.checkShipArray(test).status.should.be.equal("success");
   });
 
+  it('should handle duplicate ship positions correctly', () => {
+    let test = [...[10, 11, 12, 13, 14], ...[30, 40, 50], ...[9, 19], ...[49, 59, 69], ...[93, 94, 95, 96], 10];
+    let field = new _();
+    field.checkShipArray(test).status.should.be.equal("success");
+  });
+
   it('should reject fields with less ships than required', function () {
     let test = [...[67, 77], ...[31, 41, 51, 61, 71], ...[0, 1, 2]];
     let field = new _();
