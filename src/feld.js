@@ -47,12 +47,12 @@ module.exports = class Feld {
       this.ships = data.ships;
       return {
         status: "success"
-      }
+      };
     }
     return {
       status: data.status,
       reason: data.reason
-    }
+    };
   }
 
   checkShipArray(arr) {
@@ -68,7 +68,7 @@ module.exports = class Feld {
       return {
         status: "fail",
         reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
-      }
+      };
     }
 
     // Prüfen, ob alle Schiffe innerhalb des Spielfelds platziert wurden
@@ -77,7 +77,7 @@ module.exports = class Feld {
         return {
           status: "fail",
           reason: "Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden."
-        }
+        };
       }
     }
 
@@ -100,14 +100,14 @@ module.exports = class Feld {
           return {
             status: "fail",
             reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
-          }
+          };
         }
       }
     } else {
       return {
         status: "fail",
         reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
-      }
+      };
     }
 
     // Prüfen, ob alle Teile horiz. Schiff in der selben Reihe liegen ( [8,9,10,11,12] bspw. nicht akzeptieren).
@@ -118,7 +118,7 @@ module.exports = class Feld {
           return {
             status: "fail",
             reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
-          }
+          };
         }
       }
     }
@@ -132,7 +132,7 @@ module.exports = class Feld {
           return {
             status: "fail",
             reason: "Fehler! Schiffe dürfen nicht miteinander kollidieren!"
-          }
+          };
         }
       }
     }
@@ -211,7 +211,7 @@ module.exports = class Feld {
       shipArray,
       shipArrayH,
       shipArrayV
-    }
+    };
   }
 
   getForbiddenPos(arrH, arrV) {

@@ -47,7 +47,7 @@ module.exports = class Schiffeversenken {
         return {
           status: "fail",
           reason: "Beide Spieler müssen ihre Schiffe platziert haben."
-        }
+        };
       }
     }
 
@@ -56,7 +56,7 @@ module.exports = class Schiffeversenken {
 
     return {
       status: "success"
-    }
+    };
   }
 
   shoot(sourceID, pos) {
@@ -66,28 +66,28 @@ module.exports = class Schiffeversenken {
       return {
         status: "fail",
         reason: "Das Spiel ist bereits vorrüber."
-      }
+      };
     }
 
     if (!this.started) {
       return {
         status: "fail",
         reason: "Das Spiel hat noch nicht begonnen."
-      }
+      };
     }
 
     if (sourceID !== this.whoseTurn) {
       return {
         status: "fail",
         reason: "Du bist nicht an der Reihe!"
-      }
+      };
     }
 
     if (source.feld.hasAlreadyBeenHit(pos)) {
       return {
         status: "fail",
         reason: "Du hast an dieser Stelle bereits ein Schiff getroffen!"
-      }
+      };
     }
 
     if (!goal.feld.isShipAt(pos)) {
@@ -98,7 +98,7 @@ module.exports = class Schiffeversenken {
       return {
         status: "fail",
         reason: "Nicht getroffen"
-      }
+      };
     }
 
     source.feld.hits.push(pos);
