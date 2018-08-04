@@ -280,13 +280,13 @@ module.exports = class Feld {
   }
 
   getRequiredShipsListAsText(arr) {
-    let req_ships = [];
+    let reqShips = [];
     for (let i = 0; i < this.REQUIREDSHIPS.length; i++) {
       if (this.REQUIREDSHIPS[i] > 0) {
-        req_ships.push(this.REQUIREDSHIPS[i] + "x " + i + "er");
+        reqShips.push(this.REQUIREDSHIPS[i] + "x " + i + "er");
       }
     }
-    return req_ships.join(", ");
+    return reqShips.join(", ");
   }
 
   pushPosInSet(pos, set) {
@@ -295,4 +295,4 @@ module.exports = class Feld {
     }
     return set;
   }
-}
+};

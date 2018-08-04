@@ -5,4 +5,4 @@ module.exports = class Player {
     this.id = id;
     this.feld = new Feld();
   }
-}
+};

@@ -16,7 +16,7 @@ createExampleSchiffeversenken = () => {
   s.getPlayerById("playerID2").feld.setShips(ships);
 
   return s;
-}
+};
 
 describe("schiffeversenken...", () => {
 
@@ -42,7 +42,7 @@ describe("schiffeversenken...", () => {
 
     let shotArray = [0, 1, 2, 16, 17, 18, 31, 41, 51, 61, 71, 67, 77, 96, 97, 98];
 
-    shotArray.map(pos => {
+    shotArray.map( (pos) => {
       s.shoot("playerID1", pos);
     });
 
@@ -69,7 +69,7 @@ describe("schiffeversenken...", () => {
     ships = [...[1, 2], ...[15, 16], ...[8, 9]];
     s.getPlayerById("playerID2").feld.setShips(ships);
 
-    s.startTheGame()
+    s.startTheGame();
     s.whoseTurn = "playerID1";
 
     s.shoot("playerID1", 0);
@@ -84,7 +84,7 @@ describe("schiffeversenken...", () => {
     s.shoot("playerID2", 23);
     s.shoot("playerID1", 5);
     let res = s.shoot("playerID2", 24);
-    res.gameOver.should.be.equal(true)
+    res.gameOver.should.be.equal(true);
   });
 
   it("should fill the arrays correctly during a match", () => {
@@ -99,14 +99,14 @@ describe("schiffeversenken...", () => {
     s.shoot("playerID2", 19); // no hit
     s.shoot("playerID1", 64); // no hit
 
-    let is_hits = JSON.stringify(s.getPlayerById("playerID1").feld.hits);
+    let isHits = JSON.stringify(s.getPlayerById("playerID1").feld.hits);
     let shouldHits = JSON.stringify([0, 1, 2]);
-    let is_misses = JSON.stringify(s.getPlayerById("playerID1").feld.misses);
+    let isMisses = JSON.stringify(s.getPlayerById("playerID1").feld.misses);
     let shouldMisses = JSON.stringify([3, 64]);
 
-    shouldHits.should.be.equal(is_hits);
-    shouldMisses.should.be.equal(is_misses);
-  })
+    shouldHits.should.be.equal(isHits);
+    shouldMisses.should.be.equal(isMisses);
+  });
 
 });
 
