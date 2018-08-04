@@ -5,7 +5,7 @@ module.exports = class Schiffeversenken {
   constructor(options) {
     this.options = options || {};
     this.players = [];
-    this.winner;
+    this.winner = null;
     this.whoseTurn;
     this.started = false;
   }
@@ -62,7 +62,7 @@ module.exports = class Schiffeversenken {
   shoot(sourceID, pos) {
     let source = this.getPlayerById(sourceID);
     let goal = this.getOpponent(this.getPlayerById(sourceID));
-    if (this.winner !== undefined) {
+    if (this.winner !== null) {
       return {
         status: "fail",
         reason: "Das Spiel ist bereits vorrüber."
