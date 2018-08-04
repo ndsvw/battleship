@@ -147,7 +147,7 @@ module.exports = class Feld {
     let shipArray = [];
     let shipArrayH = [];
     let shipArrayV = [];
-    let arr_h = []; // Array, das mit den Positionen aller horizontaler Schiffe gefüllt wird
+    let arrH = []; // Array, das mit den Positionen aller horizontaler Schiffe gefüllt wird
 
     // Vertikale Schiffe finden.
     for (let s of arr) {
@@ -168,7 +168,7 @@ module.exports = class Feld {
         i++;
       }
       if (i === 0) {
-        arr_h.push(s);
+        arrH.push(s);
       } else {
         let newShip = [];
         for (let j = s; j < s + (i + 1) * this.FIELD_WIDTH; j += this.FIELD_WIDTH) {
@@ -180,7 +180,7 @@ module.exports = class Feld {
     }
 
     // Horizontale Schiffe finden.
-    for (let s of arr_h) {
+    for (let s of arrH) {
       // Falls die Position schon Teil eines Schiffs ist, continue
       let foundIt = false;
       for (let sh of shipArray) {
@@ -208,9 +208,9 @@ module.exports = class Feld {
     }
 
     return {
-      shipArray: shipArray,
-      shipArrayH: shipArrayH,
-      shipArrayV: shipArrayV
+      shipArray,
+      shipArrayH,
+      shipArrayV
     }
   }
 

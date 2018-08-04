@@ -12,7 +12,7 @@ describe("feld.constructor()", () => {
     let s1 = JSON.stringify(field1.REQUIREDSHIPS);
     let s2 = JSON.stringify(field2.REQUIREDSHIPS);
     s1.should.not.be.equal(s2);
-  })
+  });
 
 });
 
