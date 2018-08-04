@@ -1,5 +1,5 @@
-let Player = require('./player');
-let Feld = require('./feld');
+let Player = require("./player");
+let Feld = require("./feld");
 
 module.exports = class Schiffeversenken {
   constructor(options) {

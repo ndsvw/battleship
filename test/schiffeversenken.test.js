@@ -1,7 +1,7 @@
-var should = require('chai').should();
-var expect = require('chai').expect;
-var Player = require('../src/player');
-var Schiffeversenken = require('../src/schiffeversenken');
+var should = require("chai").should();
+var expect = require("chai").expect;
+var Player = require("../src/player");
+var Schiffeversenken = require("../src/schiffeversenken");
 
 createExampleSchiffeversenken = () => {
   let s = new Schiffeversenken();
@@ -18,14 +18,14 @@ createExampleSchiffeversenken = () => {
   return s;
 }
 
-describe('schiffeversenken...', () => {
+describe("schiffeversenken...", () => {
 
-  it('.getPlayerById() should work,', () => {
+  it(".getPlayerById() should work,", () => {
     let s = createExampleSchiffeversenken();
     s.getPlayerById("playerID1").id.should.be.equal("playerID1");
   });
 
-  it('.getOpponent() should work', () => {
+  it(".getOpponent() should work", () => {
     let s = new Schiffeversenken();
 
     s.addPlayer("playerID1");
@@ -34,7 +34,7 @@ describe('schiffeversenken...', () => {
     s.getOpponent(s.getPlayerById("playerID1")).id.should.be.equal(s.getPlayerById("playerID2").id);
   });
 
-  it('should work (whole game)', () => {
+  it("should work (whole game)", () => {
     let s = createExampleSchiffeversenken();
 
     s.startTheGame();
@@ -52,7 +52,7 @@ describe('schiffeversenken...', () => {
 
   });
 
-  it('should work (whole game) with other options', () => {
+  it("should work (whole game) with other options", () => {
     let s = new Schiffeversenken({
       SAMEPLAYERSTURNAFTERHIT: false,
       REQUIREDSHIPS: [0, 0, 3],
@@ -87,7 +87,7 @@ describe('schiffeversenken...', () => {
     res.gameOver.should.be.equal(true)
   });
 
-  it('should fill the arrays correctly during a match', () => {
+  it("should fill the arrays correctly during a match", () => {
     let s = createExampleSchiffeversenken();
     s.startTheGame();
     s.whoseTurn = "playerID1";
@@ -110,8 +110,8 @@ describe('schiffeversenken...', () => {
 
 });
 
-describe('schiffeversenken.startTheGame()', () => {
-  it('should work with 2 player', () => {
+describe("schiffeversenken.startTheGame()", () => {
+  it("should work with 2 player", () => {
     let s = new Schiffeversenken();
 
     s.addPlayer("playerID1");
@@ -126,7 +126,7 @@ describe('schiffeversenken.startTheGame()', () => {
     s.startTheGame().status.should.be.equal("success");
   });
 
-  it('should not work with less than 2 player', () => {
+  it("should not work with less than 2 player", () => {
     let s = new Schiffeversenken();
     s.addPlayer("playerID1");
     s.startTheGame().status.should.not.be.equal("success");
@@ -134,9 +134,9 @@ describe('schiffeversenken.startTheGame()', () => {
 
 });
 
-describe('schiffeversenken.shoot()', () => {
+describe("schiffeversenken.shoot()", () => {
 
-  it('should interpret a hit as a hit', () => {
+  it("should interpret a hit as a hit", () => {
 
     let s = createExampleSchiffeversenken();
 
@@ -146,7 +146,7 @@ describe('schiffeversenken.shoot()', () => {
     s.shoot("playerID1", 1).status.should.be.equal("hit");
   });
 
-  it('should interpret a missing as a missing', () => {
+  it("should interpret a missing as a missing", () => {
     let s = createExampleSchiffeversenken();
 
     s.startTheGame();
@@ -155,7 +155,7 @@ describe('schiffeversenken.shoot()', () => {
     s.shoot("playerID1", 10).status.should.not.be.equal("hit");
   });
 
-  it('should reject a shot if the game has not started yet', () => {
+  it("should reject a shot if the game has not started yet", () => {
     let s = createExampleSchiffeversenken();
 
     s.whoseTurn = "playerID1";
@@ -163,7 +163,7 @@ describe('schiffeversenken.shoot()', () => {
     s.shoot("playerID1", 1).status.should.not.be.equal("hit");
   });
 
-  it('should reject a shot if the game is over', () => {
+  it("should reject a shot if the game is over", () => {
     let s = createExampleSchiffeversenken();
 
     s.startTheGame();
@@ -173,7 +173,7 @@ describe('schiffeversenken.shoot()', () => {
     s.shoot("playerID1", 1).status.should.not.be.equal("hit");
   });
 
-  it('should reject a n^th (n>1) shot on the same pos', () => {
+  it("should reject a n^th (n>1) shot on the same pos", () => {
     let s = createExampleSchiffeversenken();
 
     s.whoseTurn = "playerID1";
@@ -183,7 +183,7 @@ describe('schiffeversenken.shoot()', () => {
     s.shoot("playerID1", 1).status.should.not.be.equal("hit");
   });
 
-  it('should reject a shot if it is not the source`s turn', () => {
+  it("should reject a shot if it is not the source`s turn", () => {
     let s = createExampleSchiffeversenken();
 
     s.whoseTurn = "playerID1";

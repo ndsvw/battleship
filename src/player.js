@@ -1,4 +1,4 @@
-let Feld = require('./feld');
+let Feld = require("./feld");
 
 module.exports = class Player {
   constructor(id) {
