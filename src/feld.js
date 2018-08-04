@@ -25,7 +25,7 @@ module.exports = class Feld {
     let hit = false;
     for (let s of this.ships) {
 
-      if (s.indexOf(pos) != -1) {
+      if (s.indexOf(pos) !== -1) {
         hit = true;
         break;
       }
@@ -34,16 +34,16 @@ module.exports = class Feld {
   }
 
   hasAlreadyBeenHit(pos) {
-    return this.hits.indexOf(pos) != -1;
+    return this.hits.indexOf(pos) !== -1;
   }
 
   hasAlreadyBeenMissed(pos) {
-    return this.misses.indexOf(pos) != -1;
+    return this.misses.indexOf(pos) !== -1;
   }
 
   setShips(arr) {
     let data = this.checkShipArray(arr);
-    if (data.status == "success") {
+    if (data.status === "success") {
       this.ships = data.ships;
       return {
         status: "success"
@@ -64,7 +64,7 @@ module.exports = class Feld {
     arr.sort((a, b) => a - b);
 
     // Prüfen, ob alle Schiffe platziert wurden
-    if (arr.length != this.SHIPPOSCOUNTER) {
+    if (arr.length !== this.SHIPPOSCOUNTER) {
       return {
         status: "fail",
         reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
@@ -88,7 +88,7 @@ module.exports = class Feld {
     let shipsV = data.shipArrayV;
 
     // Prüfen, ob die Schiffe in Anzahl und Länge den Vorgaben entsprechen
-    if (ships.length == this.SHIPCOUNTER) {
+    if (ships.length === this.SHIPCOUNTER) {
       // deep copy von den requirement erstellen und bei jedem Boot der Länge x den den Wert mit dem Inde x um 1 senken.
       // Danach prüfen, ob alle Werte des Arrays auf 0 sind.
       let reqCheckArr = JSON.parse(JSON.stringify(this.REQUIREDSHIPS));
@@ -96,7 +96,7 @@ module.exports = class Feld {
         reqCheckArr[s.length]--;
       }
       for (let x of reqCheckArr) {
-        if (x != 0) {
+        if (x !== 0) {
           return {
             status: "fail",
             reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
@@ -114,7 +114,7 @@ module.exports = class Feld {
     for (let s of shipsH) {
       let row = Math.floor(s[0] / this.FIELD_WIDTH);
       for (let i = 1; i < s.length; i++) {
-        if (Math.floor(s[i] / this.FIELD_WIDTH) != row) {
+        if (Math.floor(s[i] / this.FIELD_WIDTH) !== row) {
           return {
             status: "fail",
             reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
@@ -154,7 +154,7 @@ module.exports = class Feld {
       // Falls die Position schon Teil eines Schiffs ist, continue
       let foundIt = false;
       for (let sh of shipArray) {
-        if (sh.indexOf(s) != -1) {
+        if (sh.indexOf(s) !== -1) {
           foundIt = true;
           break;
         }
@@ -164,10 +164,10 @@ module.exports = class Feld {
       }
 
       let i = 0;
-      while (arr.indexOf(s + (i + 1) * this.FIELD_WIDTH) != -1) {
+      while (arr.indexOf(s + (i + 1) * this.FIELD_WIDTH) !== -1) {
         i++;
       }
-      if (i == 0) {
+      if (i === 0) {
         arr_h.push(s);
       } else {
         let newShip = [];
@@ -184,7 +184,7 @@ module.exports = class Feld {
       // Falls die Position schon Teil eines Schiffs ist, continue
       let foundIt = false;
       for (let sh of shipArray) {
-        if (sh.indexOf(s) != -1) {
+        if (sh.indexOf(s) !== -1) {
           foundIt = true;
           break;
         }
@@ -194,10 +194,10 @@ module.exports = class Feld {
       }
 
       let i = 0;
-      while (arr.indexOf(s + i + 1) != -1) {
+      while (arr.indexOf(s + i + 1) !== -1) {
         i++;
       }
-      if (i != 0) {
+      if (i !== 0) {
         let newShip = [];
         for (let j = s; j < s + i + 1; j++) {
           newShip.push(j);

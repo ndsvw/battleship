@@ -25,7 +25,7 @@ module.exports = class Schiffeversenken {
     let id = p.id;
     let keys = Object.keys(this.players);
     for (let k of keys) {
-      if (k != id) {
+      if (k !== id) {
         return this.getPlayerById(k);
       }
     }
@@ -35,7 +35,7 @@ module.exports = class Schiffeversenken {
   startTheGame() {
     let keys = Object.keys(this.players);
 
-    if (keys.length != 2) {
+    if (keys.length !== 2) {
       return {
         status: "fail",
         reason: "Es müssen genau 2 Spieler im Spiel sein."
@@ -43,7 +43,7 @@ module.exports = class Schiffeversenken {
     }
 
     for (let k of keys) {
-      if (this.players[k].feld.ships.length == 0) {
+      if (this.players[k].feld.ships.length === 0) {
         return {
           status: "fail",
           reason: "Beide Spieler müssen ihre Schiffe platziert haben."
@@ -62,7 +62,7 @@ module.exports = class Schiffeversenken {
   shoot(sourceID, pos) {
     let source = this.getPlayerById(sourceID);
     let goal = this.getOpponent(this.getPlayerById(sourceID));
-    if (this.winner != undefined) {
+    if (this.winner !== undefined) {
       return {
         status: "fail",
         reason: "Das Spiel ist bereits vorrüber."
@@ -76,7 +76,7 @@ module.exports = class Schiffeversenken {
       }
     }
 
-    if (sourceID != this.whoseTurn) {
+    if (sourceID !== this.whoseTurn) {
       return {
         status: "fail",
         reason: "Du bist nicht an der Reihe!"
@@ -106,7 +106,7 @@ module.exports = class Schiffeversenken {
     let res = {
       status: "hit"
     };
-    if (source.feld.SHIPPOSCOUNTER == source.feld.hits.length) {
+    if (source.feld.SHIPPOSCOUNTER === source.feld.hits.length) {
       res.gameOver = true;
       this.winner = source.id;
     } else {
