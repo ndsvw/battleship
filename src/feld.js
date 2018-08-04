@@ -7,7 +7,7 @@ module.exports = class Feld {
     this.FIELD_WIDTH = options.FIELD_WIDTH || 10;
     this.COLLISION_RULES = options.COLLISION_RULES || {
       ALLOW_CORNER_COLLISIONS: true // in the default field: [0,1,2,3,4,15,16] for example
-    }
+    };
     this.SHIPCOUNTER = 0;
     this.SHIPPOSCOUNTER = 0;
     for (let i = 0; i < this.REQUIREDSHIPS.length; i++) {
@@ -139,7 +139,7 @@ module.exports = class Feld {
 
     return {
       status: "success",
-      ships: ships
+      ships
     };
   }
 

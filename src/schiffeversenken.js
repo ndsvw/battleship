@@ -39,7 +39,7 @@ module.exports = class Schiffeversenken {
       return {
         status: "fail",
         reason: "Es müssen genau 2 Spieler im Spiel sein."
-      }
+      };
     }
 
     for (let k of keys) {
