@@ -51,7 +51,7 @@ module.exports = class Schiffeversenken {
       }
     }
 
-    this.whoseTurn = keys[Math.floor(Math.random() * 2)];
+    this.whoseTurn = Number(keys[Math.floor(Math.random() * 2)]);
     this.started = true;
 
     return {
