@@ -22,12 +22,11 @@ module.exports = class Schiffeversenken {
   }
 
   getOpponent(p) {
-    let id = p.id;
+    let id = String(p.id);
     let keys = Object.keys(this.players);
     for (let k of keys) {
-      let i = Number(k);
-      if (i !== id) {
-        return this.getPlayerById(i);
+      if (k !== id) {
+        return this.getPlayerById(k);
       }
     }
     return "Fehler";
@@ -44,8 +43,7 @@ module.exports = class Schiffeversenken {
     }
 
     for (let k of keys) {
-      let i = Number(k);
-      if (this.players[i].feld.ships.length === 0) {
+      if (this.players[k].feld.ships.length === 0) {
         return {
           status: "fail",
           reason: "Beide Spieler müssen ihre Schiffe platziert haben."
