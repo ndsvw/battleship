@@ -22,15 +22,7 @@ module.exports = class Feld {
   }
 
   isShipAt(pos) {
-    let hit = false;
-    for (let s of this.ships) {
-
-      if (s.indexOf(pos) !== -1) {
-        hit = true;
-        break;
-      }
-    }
-    return hit;
+    return this.ships.some(s => s.indexOf(pos) !== -1);
   }
 
   hasAlreadyBeenHit(pos) {
