@@ -132,6 +132,19 @@ describe("schiffeversenken.startTheGame()", () => {
     s.startTheGame().status.should.not.be.equal("success");
   });
 
+  it("should not work if a player did not place the ships", () => {
+    let s = new Schiffeversenken();
+
+    s.addPlayer("playerID1");
+    s.addPlayer("playerID2");
+
+    let ships = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
+    s.getPlayerById("playerID1").feld.setShips(ships);
+
+    console.log(s.startTheGame());
+    s.startTheGame().status.should.not.be.equal("success");
+  });
+
 });
 
 describe("schiffeversenken.shoot()", () => {
