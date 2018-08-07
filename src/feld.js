@@ -64,13 +64,11 @@ module.exports = class Feld {
     }
 
     // Prüfen, ob alle Schiffe innerhalb des Spielfelds platziert wurden
-    for (let s of arr) {
-      if (s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1) {
-        return {
-          status: "fail",
-          reason: "Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden."
-        };
-      }
+    if(arr.some(s => s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1)){
+      return {
+        status: "fail",
+        reason: "Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden."
+      };
     }
 
     // Ein Array mit allen Schiffen bekommen (vorher: Array mit allen Positionen)
@@ -87,13 +85,11 @@ module.exports = class Feld {
       for (let s of ships) {
         reqCheckArr[s.length]--;
       }
-      for (let x of reqCheckArr) {
-        if (x !== 0) {
-          return {
-            status: "fail",
-            reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
-          };
-        }
+      if(reqCheckArr.some(x => x !== 0)){
+        return {
+          status: "fail",
+          reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
+        };
       }
     } else {
       return {
@@ -119,13 +115,11 @@ module.exports = class Feld {
     // Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
     let forbiddenPositions = this.getForbiddenPos(shipsH, shipsV);
     for (let s of ships) {
-      for (let pos of s) {
-        if (forbiddenPositions.has(pos)) {
-          return {
-            status: "fail",
-            reason: "Fehler! Schiffe dürfen nicht miteinander kollidieren!"
-          };
-        }
+      if(s.some(pos => forbiddenPositions.has(pos))){
+        return {
+          status: "fail",
+          reason: "Fehler! Schiffe dürfen nicht miteinander kollidieren!"
+        };
       }
     }
 
@@ -144,14 +138,7 @@ module.exports = class Feld {
     // Vertikale Schiffe finden.
     for (let s of arr) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      let foundIt = false;
-      for (let sh of shipArray) {
-        if (sh.indexOf(s) !== -1) {
-          foundIt = true;
-          break;
-        }
-      }
-      if (foundIt) {
+      if (shipArray.some(sh => sh.indexOf(s) !== -1)) {
         continue;
       }
 
@@ -174,14 +161,7 @@ module.exports = class Feld {
     // Horizontale Schiffe finden.
     for (let s of arrH) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      let foundIt = false;
-      for (let sh of shipArray) {
-        if (sh.indexOf(s) !== -1) {
-          foundIt = true;
-          break;
-        }
-      }
-      if (foundIt) {
+      if (shipArray.some(sh => sh.indexOf(s) !== -1)) {
         continue;
       }
 
