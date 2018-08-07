@@ -251,7 +251,7 @@ module.exports = class Feld {
     return forbiddenPositions;
   }
 
-  getRequiredShipsListAsText(arr) {
+  getRequiredShipsListAsText() {
     let reqShips = [];
     for (let i = 0; i < this.REQUIREDSHIPS.length; i++) {
       if (this.REQUIREDSHIPS[i] > 0) {
