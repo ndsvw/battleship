@@ -2,7 +2,7 @@ module.exports = class Feld {
   constructor(options) {
     options = options || {};
     this.SAMEPLAYERSTURNAFTERHIT = typeof options.SAMEPLAYERSTURNAFTERHIT === "undefined" ? true : options.SAMEPLAYERSTURNAFTERHIT;
-    this.REQUIREDSHIPS = options.REQUIREDSHIPS || [0, 0, 1, 2, 1, 1]; // hier: 0x 0er, 0x 1er, 1x 2er, 2x 3er, 1x 4er, 1x 5er
+    this.REQUIREDSHIPS = options.REQUIREDSHIPS || [0, 1, 2, 1, 1]; // default: 0x 1er, 1x 2er, 2x 3er, 1x 4er, 1x 5er
     this.FIELD_HEIGHT = options.FIELD_HEIGHT || 10;
     this.FIELD_WIDTH = options.FIELD_WIDTH || 10;
     this.COLLISION_RULES = options.COLLISION_RULES || {
@@ -14,7 +14,7 @@ module.exports = class Feld {
       if (this.REQUIREDSHIPS[i] > 0) {
         this.SHIPCOUNTER += this.REQUIREDSHIPS[i];
       }
-      this.SHIPPOSCOUNTER += this.REQUIREDSHIPS[i] * i;
+      this.SHIPPOSCOUNTER += this.REQUIREDSHIPS[i] * (i+1);
     }
     this.ships = [];
     this.hits = [];
@@ -83,7 +83,7 @@ module.exports = class Feld {
       // Danach prüfen, ob alle Werte des Arrays auf 0 sind.
       let reqCheckArr = JSON.parse(JSON.stringify(this.REQUIREDSHIPS));
       for (let s of ships) {
-        reqCheckArr[s.length]--;
+        reqCheckArr[s.length-1]--;
       }
       if(reqCheckArr.some(x => x !== 0)){
         return {
@@ -257,7 +257,7 @@ module.exports = class Feld {
     let reqShips = [];
     for (let i = 0; i < this.REQUIREDSHIPS.length; i++) {
       if (this.REQUIREDSHIPS[i] > 0) {
-        reqShips.push(this.REQUIREDSHIPS[i] + "x " + i + "er");
+        reqShips.push(this.REQUIREDSHIPS[i] + "x " + (i + 1) + "er");
       }
     }
     return reqShips.join(", ");

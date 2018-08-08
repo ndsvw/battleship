@@ -132,7 +132,7 @@ describe("feld.setShips()", () => {
     let field = new _({
       FIELD_HEIGHT: 5,
       FIELD_WIDTH: 5,
-      REQUIREDSHIPS: [0, 0, 1, 2]
+      REQUIREDSHIPS: [0, 1, 2]
     });
     field.setShips(test).status.should.be.equal("success");
   });

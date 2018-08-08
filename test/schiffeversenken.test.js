@@ -55,7 +55,7 @@ describe("schiffeversenken...", () => {
   it("should work (whole game) with other options", () => {
     let s = new Schiffeversenken({
       SAMEPLAYERSTURNAFTERHIT: false,
-      REQUIREDSHIPS: [0, 0, 3],
+      REQUIREDSHIPS: [0, 3],
       FIELD_HEIGHT: 5,
       FIELD_WIDTH: 5
     });
@@ -141,7 +141,6 @@ describe("schiffeversenken.startTheGame()", () => {
     let ships = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
     s.getPlayerById("playerID1").feld.setShips(ships);
 
-    console.log(s.startTheGame());
     s.startTheGame().status.should.not.be.equal("success");
   });
 
