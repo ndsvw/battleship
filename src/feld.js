@@ -166,7 +166,9 @@ module.exports = class Feld {
       }
 
       let i = 0;
-      while (arr.indexOf(s + i + 1) !== -1) {
+      let currentRow = Math.floor(s / this.FIELD_WIDTH);
+      // So lange die aktuell betrachtete Position im Array arr ist && immer noch in der selben Zeile ist, wird i erhöht.
+      while (arr.indexOf(s + i + 1) !== -1 && Math.floor((s + i + 1) / this.FIELD_WIDTH) == currentRow) {
         i++;
       }
       if (i !== 0) {
@@ -196,7 +198,7 @@ module.exports = class Feld {
       if (s[0] % this.FIELD_WIDTH > 0) {
         forbiddenPositions = this.pushPosInSet(s[0] - 1, forbiddenPositions);
       }
-      if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
+      if ((s[s.length - 1] + 1) % this.FIELD_WIDTH > 0) {
         forbiddenPositions = this.pushPosInSet(s[s.length - 1] + 1, forbiddenPositions);
       }
 
