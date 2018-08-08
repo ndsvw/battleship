@@ -14,7 +14,7 @@ module.exports = class Feld {
       if (this.REQUIREDSHIPS[i] > 0) {
         this.SHIPCOUNTER += this.REQUIREDSHIPS[i];
       }
-      this.SHIPPOSCOUNTER += this.REQUIREDSHIPS[i] * (i+1);
+      this.SHIPPOSCOUNTER += this.REQUIREDSHIPS[i] * (i + 1);
     }
     this.ships = [];
     this.hits = [];
@@ -22,7 +22,7 @@ module.exports = class Feld {
   }
 
   isShipAt(pos) {
-    return this.ships.some(s => s.indexOf(pos) !== -1);
+    return this.ships.some((s) => s.indexOf(pos) !== -1);
   }
 
   hasAlreadyBeenHit(pos) {
@@ -64,7 +64,7 @@ module.exports = class Feld {
     }
 
     // Prüfen, ob alle Schiffe innerhalb des Spielfelds platziert wurden
-    if(arr.some(s => s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1)){
+    if (arr.some((s) => s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1)) {
       return {
         status: "fail",
         reason: "Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden."
@@ -83,9 +83,9 @@ module.exports = class Feld {
       // Danach prüfen, ob alle Werte des Arrays auf 0 sind.
       let reqCheckArr = JSON.parse(JSON.stringify(this.REQUIREDSHIPS));
       for (let s of ships) {
-        reqCheckArr[s.length-1]--;
+        reqCheckArr[s.length - 1]--;
       }
-      if(reqCheckArr.some(x => x !== 0)){
+      if (reqCheckArr.some((x) => x !== 0)) {
         return {
           status: "fail",
           reason: "Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: " + this.getRequiredShipsListAsText()
@@ -115,7 +115,7 @@ module.exports = class Feld {
     // Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
     let forbiddenPositions = this.getForbiddenPos(shipsH, shipsV);
     for (let s of ships) {
-      if(s.some(pos => forbiddenPositions.has(pos))){
+      if (s.some((pos) => forbiddenPositions.has(pos))) {
         return {
           status: "fail",
           reason: "Fehler! Schiffe dürfen nicht miteinander kollidieren!"
@@ -138,7 +138,7 @@ module.exports = class Feld {
     // Vertikale Schiffe finden.
     for (let s of arr) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      if (shipArray.some(sh => sh.indexOf(s) !== -1)) {
+      if (shipArray.some((sh) => sh.indexOf(s) !== -1)) {
         continue;
       }
 
@@ -161,14 +161,14 @@ module.exports = class Feld {
     // Horizontale Schiffe finden.
     for (let s of arrH) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      if (shipArray.some(sh => sh.indexOf(s) !== -1)) {
+      if (shipArray.some((sh) => sh.indexOf(s) !== -1)) {
         continue;
       }
 
       let i = 0;
       let currentRow = Math.floor(s / this.FIELD_WIDTH);
       // So lange die aktuell betrachtete Position im Array arr ist && immer noch in der selben Zeile ist, wird i erhöht.
-      while (arr.indexOf(s + i + 1) !== -1 && Math.floor((s + i + 1) / this.FIELD_WIDTH) == currentRow) {
+      while (arr.indexOf(s + i + 1) !== -1 && Math.floor((s + i + 1) / this.FIELD_WIDTH) === currentRow) {
         i++;
       }
       if (i !== 0) {

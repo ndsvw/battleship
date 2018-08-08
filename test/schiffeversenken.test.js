@@ -42,7 +42,7 @@ describe("schiffeversenken...", () => {
 
     let shotArray = [0, 1, 2, 16, 17, 18, 31, 41, 51, 61, 71, 67, 77, 96, 97, 98];
 
-    shotArray.map( (pos) => {
+    shotArray.map((pos) => {
       s.shoot("playerID1", pos);
     });
 
