@@ -21,6 +21,13 @@ module.exports = class Feld {
     this.ships = [];
     this.hits = [];
     this.misses = [];
+
+    if (this.REQUIREDSHIPS.length > this.FIELD_WIDTH && this.REQUIREDSHIPS.length > this.FIELD_WIDTH) {
+      throw "Mindestens ein benötigtes Schiff scheint nicht auf das Feld zu passen.";
+    }
+    if (this.SHIPPOSCOUNTER > this.FIELD_WIDTH * this.FIELD_HEIGHT) {
+      throw "Das Feld ist nicht groß genug für alle geforderten Schiffe.";
+    }
   }
 
   isShipAt(pos) {

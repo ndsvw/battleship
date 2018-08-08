@@ -29,7 +29,7 @@ module.exports = class Schiffeversenken {
         return this.getPlayerById(k);
       }
     }
-    return "Fehler";
+    throw "Gegner konnte nicht gefunden worden.";
   }
 
   startTheGame() {
