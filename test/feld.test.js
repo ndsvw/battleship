@@ -84,6 +84,19 @@ describe("feld.checkShipArray()", () => {
     let field = new _();
     field.checkShipArray(test).status.should.not.be.equal("success");
   });
+
+  it("should work properly if a horizontal ship is at the end of a row and an other one is at the beginning of the overlying row", () => {
+    // recognize [5, 6, 7, 8, 9, 10, 11, 12] as 2 ships
+    let test = [...[5, 6, 7, 8, 9], ...[10, 11, 12], ...[85, 86, 87, 88], ...[32, 33, 34], ...[55, 65]];
+    let field = new _();
+    field.checkShipArray(test).status.should.be.equal("success");
+  });
+
+  it("should work properly with all ships placed at the border of the field", () => {
+    let test = [...[5, 6, 7, 8, 9], ...[0, 10, 20], ...[59, 69, 79, 89], ...[70, 71, 72], ...[40, 50]];
+    let field = new _();
+    field.checkShipArray(test).status.should.be.equal("success");
+  });
 });
 
 
