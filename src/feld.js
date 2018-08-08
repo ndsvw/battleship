@@ -1,3 +1,5 @@
+let PositionSet = require("./positionset");
+
 module.exports = class Feld {
   constructor(options) {
     options = options || {};
@@ -115,7 +117,7 @@ module.exports = class Feld {
     // Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
     let forbiddenPositions = this.getForbiddenPos(shipsH, shipsV);
     for (let s of ships) {
-      if (s.some((pos) => forbiddenPositions.has(pos))) {
+      if (s.some((pos) => forbiddenPositions.hasPos(pos))) {
         return {
           status: "fail",
           reason: "Fehler! Schiffe dürfen nicht miteinander kollidieren!"
@@ -191,32 +193,32 @@ module.exports = class Feld {
   getForbiddenPos(arrH, arrV) {
     // Erstelle ein Array mit (für Schiffe) vebotenen Positionen
     // (Schritt 1: horizontal)
-    let forbiddenPositions = new Set();
+    let forbiddenPositions = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
     for (let s of arrH) {
 
       // Positionen vor und hinter dem Schiff sind verboten
       if (s[0] % this.FIELD_WIDTH > 0) {
-        forbiddenPositions = this.pushPosInSet(s[0] - 1, forbiddenPositions);
+        forbiddenPositions.addPos(s[0] - 1);
       }
       if ((s[s.length - 1] + 1) % this.FIELD_WIDTH > 0) {
-        forbiddenPositions = this.pushPosInSet(s[s.length - 1] + 1, forbiddenPositions);
+        forbiddenPositions.addPos(s[s.length - 1] + 1);
       }
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
-        forbiddenPositions = this.pushPosInSet(s[i] - this.FIELD_WIDTH, forbiddenPositions);
-        forbiddenPositions = this.pushPosInSet(s[i] + this.FIELD_WIDTH, forbiddenPositions);
+        forbiddenPositions.addPos(s[i] - this.FIELD_WIDTH);
+        forbiddenPositions.addPos(s[i] + this.FIELD_WIDTH);
       }
 
       // Positionen an den Ecken sind evtl. verboten
       if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
         if (s[0] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[0] - (this.FIELD_WIDTH + 1), forbiddenPositions);
-          forbiddenPositions = this.pushPosInSet(s[0] + (this.FIELD_WIDTH - 1), forbiddenPositions);
+          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH + 1));
+          forbiddenPositions.addPos(s[0] + (this.FIELD_WIDTH - 1));
         }
         if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[s.length - 1] - (this.FIELD_WIDTH - 1), forbiddenPositions);
-          forbiddenPositions = this.pushPosInSet(s[s.length - 1] + (this.FIELD_WIDTH + 1), forbiddenPositions);
+          forbiddenPositions.addPos(s[s.length - 1] - (this.FIELD_WIDTH - 1));
+          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
         }
       }
     }
@@ -225,28 +227,28 @@ module.exports = class Feld {
     for (let s of arrV) {
 
       // Positionen vor und hinter dem Schiff sind verboten
-      forbiddenPositions = this.pushPosInSet(s[0] - this.FIELD_WIDTH, forbiddenPositions);
-      forbiddenPositions = this.pushPosInSet(s[s.length - 1] + this.FIELD_WIDTH, forbiddenPositions);
+      forbiddenPositions.addPos(s[0] - this.FIELD_WIDTH);
+      forbiddenPositions.addPos(s[s.length - 1] + this.FIELD_WIDTH);
 
       // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
       for (let i = 0; i < s.length; i++) {
         if (s[i] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[i] - 1, forbiddenPositions);
+          forbiddenPositions.addPos(s[i] - 1);
         }
         if ((s[i] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[i] + 1, forbiddenPositions);
+          forbiddenPositions.addPos(s[i] + 1);
         }
       }
 
       // Positionen an den Ecken sind evtl. verboten
       if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
         if (s[0] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[0] - (this.FIELD_WIDTH + 1), forbiddenPositions);
-          forbiddenPositions = this.pushPosInSet(s[s.length - 1] + (this.FIELD_WIDTH - 1), forbiddenPositions);
+          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH + 1));
+          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH - 1));
         }
         if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions = this.pushPosInSet(s[0] - (this.FIELD_WIDTH - 1), forbiddenPositions);
-          forbiddenPositions = this.pushPosInSet(s[s.length - 1] + (this.FIELD_WIDTH + 1), forbiddenPositions);
+          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH - 1));
+          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
         }
       }
     }
@@ -263,10 +265,4 @@ module.exports = class Feld {
     return reqShips.join(", ");
   }
 
-  pushPosInSet(pos, set) {
-    if (pos >= 0 && pos < this.FIELD_HEIGHT * this.FIELD_WIDTH - 1) {
-      set.add(pos);
-    }
-    return set;
-  }
 };
