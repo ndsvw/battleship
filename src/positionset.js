@@ -15,6 +15,14 @@ module.exports = class PositionSet {
     return this.set.has(pos);
   }
 
+  union(set2) {
+    for (let e of set2.get()) {
+      this.set.add(e);
+    }
+  }
 
+  get() {
+    return this.set;
+  }
 
 }

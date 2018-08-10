@@ -122,7 +122,7 @@ module.exports = class Feld {
 
 
     // Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
-    let forbiddenPositions = this.getForbiddenPos(shipsH, shipsV);
+    let forbiddenPositions = this.getCollisionPos(shipsH, shipsV);
     for (let s of ships) {
       if (s.some((pos) => forbiddenPositions.hasPos(pos))) {
         return {
@@ -197,69 +197,77 @@ module.exports = class Feld {
     };
   }
 
-  getForbiddenPos(arrH, arrV) {
-    // Erstelle ein Array mit (für Schiffe) vebotenen Positionen
-    // (Schritt 1: horizontal)
-    let forbiddenPositions = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
-    for (let s of arrH) {
+  getCollisionPos(shipsH, shipsV) {
+    let collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
+    for (let s of shipsH) {
+      collisionPos.union(this.getCollisionPosOfHorizontalShip(s));
+    }
+    for (let s of shipsV) {
+      collisionPos.union(this.getCollisionPosOfVerticalShip(s));
+    }
+    return collisionPos;
+  }
 
-      // Positionen vor und hinter dem Schiff sind verboten
+  getCollisionPosOfHorizontalShip(s) {
+    let collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
+
+    // Positionen vor und hinter dem Schiff sind verboten
+    if (s[0] % this.FIELD_WIDTH > 0) {
+      collisionPos.addPos(s[0] - 1);
+    }
+    if ((s[s.length - 1] + 1) % this.FIELD_WIDTH > 0) {
+      collisionPos.addPos(s[s.length - 1] + 1);
+    }
+
+    // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
+    for (let i = 0; i < s.length; i++) {
+      collisionPos.addPos(s[i] - this.FIELD_WIDTH);
+      collisionPos.addPos(s[i] + this.FIELD_WIDTH);
+    }
+
+    // Positionen an den Ecken sind evtl. verboten
+    if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
       if (s[0] % this.FIELD_WIDTH > 0) {
-        forbiddenPositions.addPos(s[0] - 1);
+        collisionPos.addPos(s[0] - (this.FIELD_WIDTH + 1));
+        collisionPos.addPos(s[0] + (this.FIELD_WIDTH - 1));
       }
-      if ((s[s.length - 1] + 1) % this.FIELD_WIDTH > 0) {
-        forbiddenPositions.addPos(s[s.length - 1] + 1);
+      if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
+        collisionPos.addPos(s[s.length - 1] - (this.FIELD_WIDTH - 1));
+        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
       }
+    }
+    return collisionPos;
+  }
 
-      // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
-      for (let i = 0; i < s.length; i++) {
-        forbiddenPositions.addPos(s[i] - this.FIELD_WIDTH);
-        forbiddenPositions.addPos(s[i] + this.FIELD_WIDTH);
-      }
+  getCollisionPosOfVerticalShip(s) {
+    let collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
 
-      // Positionen an den Ecken sind evtl. verboten
-      if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
-        if (s[0] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH + 1));
-          forbiddenPositions.addPos(s[0] + (this.FIELD_WIDTH - 1));
-        }
-        if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[s.length - 1] - (this.FIELD_WIDTH - 1));
-          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
-        }
+    // Positionen vor und hinter dem Schiff sind verboten
+    collisionPos.addPos(s[0] - this.FIELD_WIDTH);
+    collisionPos.addPos(s[s.length - 1] + this.FIELD_WIDTH);
+
+    // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] % this.FIELD_WIDTH > 0) {
+        collisionPos.addPos(s[i] - 1);
+      }
+      if ((s[i] + 1) % this.FIELD_WIDTH > 0) {
+        collisionPos.addPos(s[i] + 1);
       }
     }
 
-    // (Schritt 2: vertikal)
-    for (let s of arrV) {
-
-      // Positionen vor und hinter dem Schiff sind verboten
-      forbiddenPositions.addPos(s[0] - this.FIELD_WIDTH);
-      forbiddenPositions.addPos(s[s.length - 1] + this.FIELD_WIDTH);
-
-      // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
-      for (let i = 0; i < s.length; i++) {
-        if (s[i] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[i] - 1);
-        }
-        if ((s[i] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[i] + 1);
-        }
+    // Positionen an den Ecken sind evtl. verboten
+    if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
+      if (s[0] % this.FIELD_WIDTH > 0) {
+        collisionPos.addPos(s[0] - (this.FIELD_WIDTH + 1));
+        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH - 1));
       }
-
-      // Positionen an den Ecken sind evtl. verboten
-      if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
-        if (s[0] % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH + 1));
-          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH - 1));
-        }
-        if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-          forbiddenPositions.addPos(s[0] - (this.FIELD_WIDTH - 1));
-          forbiddenPositions.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
-        }
+      if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
+        collisionPos.addPos(s[0] - (this.FIELD_WIDTH - 1));
+        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
       }
     }
-    return forbiddenPositions;
+    return collisionPos;
   }
 
   getRequiredShipsListAsText() {
