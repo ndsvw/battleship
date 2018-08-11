@@ -213,27 +213,27 @@ module.exports = class Feld {
 
     // Positionen vor und hinter dem Schiff sind verboten
     if (s[0] % this.FIELD_WIDTH > 0) {
-      collisionPos.addPos(s[0] - 1);
+      collisionPos.add(s[0] - 1);
     }
     if ((s[s.length - 1] + 1) % this.FIELD_WIDTH > 0) {
-      collisionPos.addPos(s[s.length - 1] + 1);
+      collisionPos.add(s[s.length - 1] + 1);
     }
 
     // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
     for (let i = 0; i < s.length; i++) {
-      collisionPos.addPos(s[i] - this.FIELD_WIDTH);
-      collisionPos.addPos(s[i] + this.FIELD_WIDTH);
+      collisionPos.add(s[i] - this.FIELD_WIDTH);
+      collisionPos.add(s[i] + this.FIELD_WIDTH);
     }
 
     // Positionen an den Ecken sind evtl. verboten
     if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
       if (s[0] % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[0] - (this.FIELD_WIDTH + 1));
-        collisionPos.addPos(s[0] + (this.FIELD_WIDTH - 1));
+        collisionPos.add(s[0] - (this.FIELD_WIDTH + 1));
+        collisionPos.add(s[0] + (this.FIELD_WIDTH - 1));
       }
       if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[s.length - 1] - (this.FIELD_WIDTH - 1));
-        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
+        collisionPos.add(s[s.length - 1] - (this.FIELD_WIDTH - 1));
+        collisionPos.add(s[s.length - 1] + (this.FIELD_WIDTH + 1));
       }
     }
     return collisionPos;
@@ -243,28 +243,28 @@ module.exports = class Feld {
     let collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
 
     // Positionen vor und hinter dem Schiff sind verboten
-    collisionPos.addPos(s[0] - this.FIELD_WIDTH);
-    collisionPos.addPos(s[s.length - 1] + this.FIELD_WIDTH);
+    collisionPos.add(s[0] - this.FIELD_WIDTH);
+    collisionPos.add(s[s.length - 1] + this.FIELD_WIDTH);
 
     // Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
     for (let i = 0; i < s.length; i++) {
       if (s[i] % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[i] - 1);
+        collisionPos.add(s[i] - 1);
       }
       if ((s[i] + 1) % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[i] + 1);
+        collisionPos.add(s[i] + 1);
       }
     }
 
     // Positionen an den Ecken sind evtl. verboten
     if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
       if (s[0] % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[0] - (this.FIELD_WIDTH + 1));
-        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH - 1));
+        collisionPos.add(s[0] - (this.FIELD_WIDTH + 1));
+        collisionPos.add(s[s.length - 1] + (this.FIELD_WIDTH - 1));
       }
       if ((s[0] + 1) % this.FIELD_WIDTH > 0) {
-        collisionPos.addPos(s[0] - (this.FIELD_WIDTH - 1));
-        collisionPos.addPos(s[s.length - 1] + (this.FIELD_WIDTH + 1));
+        collisionPos.add(s[0] - (this.FIELD_WIDTH - 1));
+        collisionPos.add(s[s.length - 1] + (this.FIELD_WIDTH + 1));
       }
     }
     return collisionPos;
