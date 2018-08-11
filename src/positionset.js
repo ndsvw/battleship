@@ -29,17 +29,4 @@ module.exports = class PositionSet extends Set {
     return this;
   }
 
-}
-
-// let p = new PositionSet(10, 10);
-// p.addPos(1);
-// p.addPos(2);
-// p.addPos(4);
-// p.addPos(5);
-
-// let p2 = new PositionSet(10, 10);
-// p2.addPos(2);
-// p2.addPos(4);
-// p2.addPos(8);
-
-// console.log(p.union(p2));
+};

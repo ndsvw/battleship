@@ -9,7 +9,7 @@ module.exports = class RandomFieldGenerator {
     this.FIELD_WIDTH = options.FIELD_WIDTH || 10;
     this.COLLISION_RULES = options.COLLISION_RULES || {
       ALLOW_CORNER_COLLISIONS: true // in the default field: [0,1,2,3,4,15,16] for example
-    }
+    };
   }
 
   generateField() {
@@ -69,7 +69,7 @@ module.exports = class RandomFieldGenerator {
           }
 
           if (availablePos.intersect(newPos).size() === newPos.size() && newPos.size() === size) {
-            foundSolution = true
+            foundSolution = true;
 
             let f = new Feld();
             let collisionPos;
