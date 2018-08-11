@@ -1,4 +1,3 @@
-const Feld = require('./feld');
 const PositionSet = require("./positionset");
 
 module.exports = class RandomFieldGenerator {
@@ -14,6 +13,8 @@ module.exports = class RandomFieldGenerator {
   }
 
   generateField() {
+    const Feld = require("./feld"); //workaround. Require it at the top does not work.
+    //console.log('Feld', Feld);
     // statistics of 1.000.000 tries:
     // >= 60 iterations: 0.0025%
     // >= 50 iterations: 0.194%

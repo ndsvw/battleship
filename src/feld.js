@@ -1,4 +1,5 @@
 let PositionSet = require("./positionset");
+let RandomFieldGenerator = require("./random-feld-generator");
 
 module.exports = class Feld {
   constructor(options) {
@@ -54,6 +55,13 @@ module.exports = class Feld {
       status: data.status,
       reason: data.reason
     };
+  }
+
+  setRandomShips() {
+    //only works for the default field so far
+    let rfg = new RandomFieldGenerator();
+    console.log(rfg.generateField());
+    return this.setShips(rfg.generateField());
   }
 
   checkShipArray(arr) {

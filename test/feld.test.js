@@ -148,3 +148,10 @@ describe("feld.setShips()", () => {
   });
 
 });
+
+describe("feld.setRandomShips()", () => {
+  it("should always return 'success'", () => {
+    let field = new _();
+    field.setRandomShips().status.should.be.equal("success");
+  });
+});
