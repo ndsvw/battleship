@@ -32,15 +32,15 @@ module.exports = class Feld {
   }
 
   isShipAt(pos) {
-    return this.ships.some((s) => s.indexOf(pos) !== -1);
+    return this.ships.some((s) => s.includes(pos));
   }
 
   hasAlreadyBeenHit(pos) {
-    return this.hits.indexOf(pos) !== -1;
+    return this.hits.includes(pos);
   }
 
   hasAlreadyBeenMissed(pos) {
-    return this.misses.indexOf(pos) !== -1;
+    return this.misses.includes(pos);
   }
 
   setShips(arr) {
@@ -155,12 +155,12 @@ module.exports = class Feld {
     // Vertikale Schiffe finden.
     for (let s of arr) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      if (shipArray.some((sh) => sh.indexOf(s) !== -1)) {
+      if (shipArray.some((sh) => sh.includes(s))) {
         continue;
       }
 
       let i = 0;
-      while (arr.indexOf(s + (i + 1) * this.FIELD_WIDTH) !== -1) {
+      while (arr.includes(s + (i + 1) * this.FIELD_WIDTH)) {
         i++;
       }
       if (i === 0) {
@@ -178,14 +178,14 @@ module.exports = class Feld {
     // Horizontale Schiffe finden.
     for (let s of arrH) {
       // Falls die Position schon Teil eines Schiffs ist, continue
-      if (shipArray.some((sh) => sh.indexOf(s) !== -1)) {
+      if (shipArray.some((sh) => sh.includes(s))) {
         continue;
       }
 
       let i = 0;
       let currentRow = Math.floor(s / this.FIELD_WIDTH);
       // So lange die aktuell betrachtete Position im Array arr ist && immer noch in der selben Zeile ist, wird i erhöht.
-      while (arr.indexOf(s + i + 1) !== -1 && Math.floor((s + i + 1) / this.FIELD_WIDTH) === currentRow) {
+      while (arr.includes(s + i + 1) && Math.floor((s + i + 1) / this.FIELD_WIDTH) === currentRow) {
         i++;
       }
       if (i !== 0) {
