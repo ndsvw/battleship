@@ -14,15 +14,6 @@ module.exports = class RandomFieldGenerator {
 
   generateField() {
     const Feld = require("./feld"); //workaround. Require it at the top does not work.
-    //console.log('Feld', Feld);
-    // statistics of 1.000.000 tries:
-    // >= 60 iterations: 0.0025%
-    // >= 50 iterations: 0.194%
-    // >= 40 iterations: 0.2772%
-    // >= 30 iterations: 3.1173%
-    // >= 20 iterations: 24.9807%
-    // >= 15 iterations: 54.5571%
-    // >= 10 iterations: 88.3623%
     let n = this.FIELD_HEIGHT * this.FIELD_WIDTH;
     let availablePos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, Array.apply(null, { length: n }).map(Function.call, Number)); // generates an array from 0 to n-1
     let solution = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, []);
@@ -58,17 +49,22 @@ module.exports = class RandomFieldGenerator {
               break;
           }
 
-          let row = pos;
-          for (let i = 0; i < size; i++) {
-            if (dir <= 1) {
-              if (((pos + (i * multiplier)) % this.FIELD_WIDTH) !== row) {
-                continue;
+          let pozentialHorizShipNotOver2Rows = true;
+          if (dir <= 1) {
+            for (let i = 0; i < size; i++) {
+              if (Math.floor((pos + i * multiplier) / this.FIELD_WIDTH) !== Math.floor(pos / this.FIELD_WIDTH)) {
+                pozentialHorizShipNotOver2Rows = false;
+                break;
               }
+              newPos.add(pos + (i * multiplier));
             }
-            newPos.add(pos + (i * multiplier));
+          } else {
+            for (let i = 0; i < size; i++) {
+              newPos.add(pos + (i * multiplier));
+            }
           }
 
-          if (availablePos.intersect(newPos).size() === newPos.size() && newPos.size() === size) {
+          if (pozentialHorizShipNotOver2Rows && availablePos.intersect(newPos).size() === newPos.size() && newPos.size() === size) {
             foundSolution = true;
 
             let f = new Feld();
