@@ -43,6 +43,11 @@ module.exports = class Feld {
     return this.misses.includes(pos);
   }
 
+  isShipDestroyedAt(pos, opponentFeld) {
+    let ship = this.ships.find((s) => s.includes(pos)) || null;
+    return (ship !== null && ship.every((p) => opponentFeld.hasAlreadyBeenHit(p)));
+  }
+
   setShips(arr) {
     let data = this.checkShipArray(arr);
     if (data.status === "success") {
@@ -60,7 +65,6 @@ module.exports = class Feld {
   setRandomShips() {
     //only works for the default field so far
     let rfg = new RandomFieldGenerator();
-    console.log(rfg.generateField());
     return this.setShips(rfg.generateField());
   }
 

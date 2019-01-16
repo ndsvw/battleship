@@ -104,8 +104,10 @@ module.exports = class Schiffeversenken {
     source.feld.hits.push(pos);
 
     let res = {
-      status: "hit"
+      status: "hit",
+      shipDestroyed: goal.feld.isShipDestroyedAt(pos, source.feld)
     };
+
     if (source.feld.SHIPPOSCOUNTER === source.feld.hits.length) {
       res.gameOver = true;
       this.winner = source.id;
