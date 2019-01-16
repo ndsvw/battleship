@@ -29,25 +29,12 @@ module.exports = class RandomFieldGenerator {
           let newPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, []);
 
           // Zum Bestimmen der neuen Position wird je nach Richtung wird entweder
-          // -i draufaddiert (links)
-          // i draufaddiert (rechts)
-          // i * -FIELD_WIDTH draufaddiert (oben)
-          // i * FIELD_WIDTH draufaddiert (unten)
-          let multiplier;
-          switch (dir) {
-            case 0:
-              multiplier = -1;
-              break;
-            case 1:
-              multiplier = 1;
-              break;
-            case 2:
-              multiplier = -this.FIELD_WIDTH;
-              break;
-            case 3:
-              multiplier = this.FIELD_WIDTH;
-              break;
-          }
+          // -i draufaddiert (links) ==> multiplier = -1
+          // i draufaddiert (rechts) ==> multiplier = 1
+          // i * -FIELD_WIDTH draufaddiert (oben) ==> multiplier = -this.FIELD_WIDTH
+          // i * FIELD_WIDTH draufaddiert (unten) ==> multiplier = this.FIELD_WIDTH
+          let multipliers = [-1, 1, -this.FIELD_WIDTH, this.FIELD_WIDTH];
+          let multiplier = multipliers[dir];
 
           let pozentialHorizShipNotOver2Rows = true;
           if (dir <= 1) {
