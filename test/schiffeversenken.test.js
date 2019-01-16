@@ -204,4 +204,33 @@ describe("schiffeversenken.shoot()", () => {
 
   });
 
+  it("should return shipDestroyed: true/false correctly", () => {
+    let s = createExampleSchiffeversenken();
+    s.startTheGame();
+    s.whoseTurn = "playerID1";
+
+    s.shoot("playerID1", 0).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 1).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 2).shipDestroyed.should.be.equal(true);
+
+    s.shoot("playerID1", 18).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 17).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 16).shipDestroyed.should.be.equal(true);
+
+    s.shoot("playerID1", 67).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 77).shipDestroyed.should.be.equal(true);
+
+    s.shoot("playerID1", 71).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 61).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 51).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 41).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 31).shipDestroyed.should.be.equal(true);
+
+    s.shoot("playerID1", 96).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 97).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 98).shipDestroyed.should.be.equal(false);
+    s.shoot("playerID1", 99).shipDestroyed.should.be.equal(true);
+
+  });
+
 });
