@@ -19,7 +19,7 @@ let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71,
 let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71, 81];
 let f = new Feld();
 let res = f.checkShipArray(shipArray);
-# res.status = "success"
+// res.status = "success"
 ```
 
 ### getShipsOfArray
@@ -27,9 +27,9 @@ let res = f.checkShipArray(shipArray);
 let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71, 81];
 let f = new Feld();
 let res = f.getShipsOfArray(shipArray);
-# res.shipArray = [ [ 27, 37, 47 ],[ 32, 42 ],[ 61, 71, 81 ],[ 11, 12, 13, 14, 15 ],[ 63, 64, 65, 66 ] ]
-# res.shipArrayH = [ [ 11, 12, 13, 14, 15 ], [ 63, 64, 65, 66 ] ]
-# res.shipArrayV = [ 27, 37, 47 ], [ 32, 42 ], [ 61, 71, 81 ]
+// res.shipArray = [ [ 27, 37, 47 ],[ 32, 42 ],[ 61, 71, 81 ],[ 11, 12, 13, 14, 15 ],[ 63, 64, 65, 66 ] ]
+// res.shipArrayH = [ [ 11, 12, 13, 14, 15 ], [ 63, 64, 65, 66 ] ]
+// res.shipArrayV = [ 27, 37, 47 ], [ 32, 42 ], [ 61, 71, 81 ]
 ```
 
 ### ein ganzes Match
@@ -54,15 +54,15 @@ s.shoot("playerID1", 41); //hit
 s.shoot("playerID1", 42); //hit
 s.shoot("playerID1", 43); //hit
 s.shoot("playerID1", 40); //hit
-s.shoot("playerID1", 44); //hit
-s.shoot("playerID1", 45); //fail
+s.shoot("playerID1", 44); //hit //destroyed
+s.shoot("playerID1", 61); //fail
 s.shoot("playerID2", 73); //hit
 s.shoot("playerID2", 72); //hit
 s.shoot("playerID2", 71); //fail
 s.shoot("playerID1", 0); //fail
 s.shoot("playerID2", 74); //hit
 s.shoot("playerID2", 75); //hit
-s.shoot("playerID2", 76); //hit
+s.shoot("playerID2", 76); //hit //destroyed
 s.shoot("playerID2", 34); //fail
 s.shoot("playerID1", 13); //fail
 s.shoot("playerID2", 10); //fail
@@ -81,8 +81,8 @@ s.shoot("playerID1", 78); //fail
 s.shoot("playerID2", 69); //fail
 s.shoot("playerID1", 89); //fail
 s.shoot("playerID2", 38); //fail
-s.shoot("playerID1", 69); //hit
-s.shoot("playerID1", 59); //fail
+s.shoot("playerID1", 69); //hit //destroyed
+s.shoot("playerID1", 33); //fail
 s.shoot("playerID2", 95); //fail
 s.shoot("playerID1", 64); //fail
 s.shoot("playerID2", 26); //hit
@@ -91,17 +91,17 @@ s.shoot("playerID2", 24); //fail
 s.shoot("playerID1", 76); //hit
 s.shoot("playerID1", 75); //fail
 s.shoot("playerID2", 27); //hit
-s.shoot("playerID2", 28); //hit
+s.shoot("playerID2", 28); //hit //destroyed
 s.shoot("playerID2", 8); //fail
 s.shoot("playerID1", 86); //hit
 s.shoot("playerID1", 96); //hit
-s.shoot("playerID1", 66); //hit
+s.shoot("playerID1", 66); //hit //destroyed
 s.shoot("playerID1", 38); //fail
 s.shoot("playerID2", 91); //fail
 s.shoot("playerID1", 62); //fail
 s.shoot("playerID2", 2); //hit
 s.shoot("playerID2", 1); //hit
-s.shoot("playerID2", 0); //hit
+s.shoot("playerID2", 0); //hit //destroyed
 s.shoot("playerID2", 6); //fail
 s.shoot("playerID1", 19); //fail
 s.shoot("playerID2", 97); //fail
@@ -110,13 +110,13 @@ s.shoot("playerID2", 40); //hit
 s.shoot("playerID2", 30); //fail
 s.shoot("playerID1", 27); //fail
 s.shoot("playerID2", 50); //hit
-s.shoot("playerID2", 60); //hit
+s.shoot("playerID2", 60); //hit //destroyed
 s.shoot("playerID2", 93); //fail
 s.shoot("playerID1", 98); //fail
 s.shoot("playerID2", 58); //fail
 s.shoot("playerID1", 70); //hit
 s.shoot("playerID1", 71); //hit
-s.shoot("playerID1", 72); //hit
+s.shoot("playerID1", 72); //hit //destroyed
 s.shoot("playerID1", 2); //fail
 s.shoot("playerID2", 88); //fail
 s.shoot("playerID1", 57); //fail
@@ -125,5 +125,5 @@ s.shoot("playerID1", 16); //hit
 s.shoot("playerID1", 17); //hit
 s.shoot("playerID1", 18); //fail
 s.shoot("playerID2", 45); //fail
-s.shoot("playerID1", 15); //hit //gameover
+s.shoot("playerID1", 15); //hit //destroyed //gameover
 ```
