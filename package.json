@@ -1,8 +1,8 @@
 {
   "name": "battleship",
   "version": "1.1.0",
-  "description": "",
-  "main": "schiffeversenken.js",
+  "description": "battleship is a 100%-Javascript battleship game.",
+  "main": "battleship.js",
   "directories": {
     "test": "test"
   },
@@ -10,7 +10,7 @@
     "test": "mocha"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chai": "^4.1.1",
     "ndsvw-set": "^1.1.2"

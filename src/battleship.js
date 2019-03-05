@@ -1,5 +1,5 @@
 const Player = require('./player');
-const Feld = require('./feld');
+const Field = require('./field');
 
 module.exports = class Schiffeversenken {
 	constructor(options) {
@@ -13,7 +13,7 @@ module.exports = class Schiffeversenken {
 	addPlayer(id) {
 		if (Object.keys(this.players).length < 2) {
 			this.players[id] = new Player(id);
-			this.getPlayerById(id).feld = new Feld(this.options);
+			this.getPlayerById(id).field = new Field(this.options);
 		}
 	}
 
@@ -29,7 +29,7 @@ module.exports = class Schiffeversenken {
 				return this.getPlayerById(k);
 			}
 		}
-		throw new Error('Gegner konnte nicht gefunden worden.');
+		throw new Error('Opponent not found.');
 	}
 
 	startTheGame() {
@@ -38,15 +38,15 @@ module.exports = class Schiffeversenken {
 		if (keys.length !== 2) {
 			return {
 				status: 'fail',
-				reason: 'Es müssen genau 2 Spieler im Spiel sein.'
+				reason: '2 players required.'
 			};
 		}
 
 		for (const k of keys) {
-			if (this.players[k].feld.ships.length === 0) {
+			if (this.players[k].field.ships.length === 0) {
 				return {
 					status: 'fail',
-					reason: 'Beide Spieler müssen ihre Schiffe platziert haben.'
+					reason: 'Both players need to have placed their ships.'
 				};
 			}
 		}
@@ -65,54 +65,54 @@ module.exports = class Schiffeversenken {
 		if (this.winner !== null) {
 			return {
 				status: 'fail',
-				reason: 'Das Spiel ist bereits vorrüber.'
+				reason: 'The match is already over.'
 			};
 		}
 
 		if (!this.started) {
 			return {
 				status: 'fail',
-				reason: 'Das Spiel hat noch nicht begonnen.'
+				reason: 'The match has not started yet.'
 			};
 		}
 
 		if (sourceID !== this.whoseTurn) {
 			return {
 				status: 'fail',
-				reason: 'Du bist nicht an der Reihe!'
+				reason: 'It\'s not your turn.'
 			};
 		}
 
-		if (source.feld.hasAlreadyBeenHit(pos)) {
+		if (source.field.hasAlreadyBeenHit(pos)) {
 			return {
 				status: 'fail',
-				reason: 'Du hast an dieser Stelle bereits ein Schiff getroffen!'
+				reason: 'Already hit a ship at that position!'
 			};
 		}
 
-		if (!goal.feld.isShipAt(pos)) {
-			if (!source.feld.hasAlreadyBeenMissed(pos)) {
-				source.feld.misses.push(pos);
+		if (!goal.field.isShipAt(pos)) {
+			if (!source.field.hasAlreadyBeenMissed(pos)) {
+				source.field.misses.push(pos);
 			}
 			this.whoseTurn = this.getOpponent(source).id;
 			return {
 				status: 'fail',
-				reason: 'Nicht getroffen'
+				reason: 'Missed'
 			};
 		}
 
-		source.feld.hits.push(pos);
+		source.field.hits.push(pos);
 
 		const res = {
 			status: 'hit',
-			shipDestroyed: goal.feld.isShipDestroyedAt(pos, source.feld)
+			shipDestroyed: goal.field.isShipDestroyedAt(pos, source.field)
 		};
 
-		if (source.feld.SHIPPOSCOUNTER === source.feld.hits.length) {
+		if (source.field.SHIPPOSCOUNTER === source.field.hits.length) {
 			res.gameOver = true;
 			this.winner = source.id;
 		} else {
-			if (!source.feld.SAMEPLAYERSTURNAFTERHIT) {
+			if (!source.field.SAMEPLAYERSTURNAFTERHIT) {
 				this.whoseTurn = this.getOpponent(source).id;
 			}
 		}

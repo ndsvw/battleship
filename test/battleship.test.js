@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const Player = require('../src/player');
-const Schiffeversenken = require('../src/schiffeversenken');
+const Schiffeversenken = require('../src/battleship');
 
 createExampleSchiffeversenken = () => {
 	const s = new Schiffeversenken();
@@ -9,10 +9,10 @@ createExampleSchiffeversenken = () => {
 	s.addPlayer('playerID2');
 
 	let ships = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
-	s.getPlayerById('playerID1').feld.setShips(ships);
+	s.getPlayerById('playerID1').field.setShips(ships);
 
 	ships = [...[67, 77], ...[31, 41, 51, 61, 71], ...[0, 1, 2], ...[16, 17, 18], ...[96, 97, 98, 99]];
-	s.getPlayerById('playerID2').feld.setShips(ships);
+	s.getPlayerById('playerID2').field.setShips(ships);
 
 	return s;
 };
@@ -61,10 +61,10 @@ describe('schiffeversenken...', () => {
 		s.addPlayer('playerID2');
 
 		let ships = [...[0, 1], ...[8, 9], ...[23, 24]];
-		s.getPlayerById('playerID1').feld.setShips(ships);
+		s.getPlayerById('playerID1').field.setShips(ships);
 
 		ships = [...[1, 2], ...[15, 16], ...[8, 9]];
-		s.getPlayerById('playerID2').feld.setShips(ships);
+		s.getPlayerById('playerID2').field.setShips(ships);
 
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
@@ -96,9 +96,9 @@ describe('schiffeversenken...', () => {
 		s.shoot('playerID2', 19); // no hit
 		s.shoot('playerID1', 64); // no hit
 
-		const isHits = JSON.stringify(s.getPlayerById('playerID1').feld.hits);
+		const isHits = JSON.stringify(s.getPlayerById('playerID1').field.hits);
 		const shouldHits = JSON.stringify([0, 1, 2]);
-		const isMisses = JSON.stringify(s.getPlayerById('playerID1').feld.misses);
+		const isMisses = JSON.stringify(s.getPlayerById('playerID1').field.misses);
 		const shouldMisses = JSON.stringify([3, 64]);
 
 		shouldHits.should.be.equal(isHits);
@@ -114,10 +114,10 @@ describe('schiffeversenken.startTheGame()', () => {
 		s.addPlayer('playerID2');
 
 		let ships = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
-		s.getPlayerById('playerID1').feld.setShips(ships);
+		s.getPlayerById('playerID1').field.setShips(ships);
 
 		ships = [...[67, 77], ...[31, 41, 51, 61, 71], ...[0, 1, 2], ...[16, 17, 18], ...[96, 97, 98, 99]];
-		s.getPlayerById('playerID2').feld.setShips(ships);
+		s.getPlayerById('playerID2').field.setShips(ships);
 
 		s.startTheGame().status.should.be.equal('success');
 	});
@@ -135,7 +135,7 @@ describe('schiffeversenken.startTheGame()', () => {
 		s.addPlayer('playerID2');
 
 		const ships = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
-		s.getPlayerById('playerID1').feld.setShips(ships);
+		s.getPlayerById('playerID1').field.setShips(ships);
 
 		s.startTheGame().status.should.not.be.equal('success');
 	});

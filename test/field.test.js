@@ -1,8 +1,8 @@
 const should = require('chai').should();
 const expect = require('chai').expect;
-const _ = require('../src/feld');
+const _ = require('../src/field');
 
-describe('feld.constructor()', () => {
+describe('field.constructor()', () => {
 	it('should be able to handle optional options', () => {
 		const field1 = new _();
 		const field2 = new _({
@@ -15,7 +15,7 @@ describe('feld.constructor()', () => {
 });
 
 
-describe('feld.checkShipArray()', () => {
+describe('field.checkShipArray()', () => {
 	it('should accept a correct field of ships #1', () => {
 		const test = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
 		const field = new _();
@@ -97,7 +97,7 @@ describe('feld.checkShipArray()', () => {
 });
 
 
-describe('feld.setShips()', () => {
+describe('field.setShips()', () => {
 	it('should return \'success\' if it works', () => {
 		const test = [...[0, 1, 2, 3, 4], ...[7, 8, 9], ...[20, 21, 22, 23], ...[41, 51, 61], ...[55, 65]];
 		const field = new _();
@@ -145,7 +145,7 @@ describe('feld.setShips()', () => {
 	});
 });
 
-describe('feld.setRandomShips()', () => {
+describe('field.setRandomShips()', () => {
 	it('should always return \'success\'', () => {
 		const field = new _();
 		field.setRandomShips().status.should.be.equal('success');

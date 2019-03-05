@@ -4,7 +4,7 @@ module.exports = class RandomFieldGenerator {
 	constructor(options) {
 		options = options || {};
 		this.SAMEPLAYERSTURNAFTERHIT = typeof options.SAMEPLAYERSTURNAFTERHIT === 'undefined' ? true : options.SAMEPLAYERSTURNAFTERHIT;
-		this.REQUIREDSHIPS = options.REQUIREDSHIPS || [0, 1, 2, 1, 1]; // hier: 0x 1er, 1x 2er, 2x 3er, 1x 4er, 1x 5er
+		this.REQUIREDSHIPS = options.REQUIREDSHIPS || [0, 1, 2, 1, 1]; // default: 0x 1er, 1x 2er, 2x 3er, 1x 4er, 1x 5er
 		this.FIELD_HEIGHT = options.FIELD_HEIGHT || 10;
 		this.FIELD_WIDTH = options.FIELD_WIDTH || 10;
 		this.COLLISION_RULES = options.COLLISION_RULES || {
@@ -13,7 +13,7 @@ module.exports = class RandomFieldGenerator {
 	}
 
 	generateField() {
-		const Feld = require('./feld'); // workaround. Require it at the top does not work.
+		const Field = require('./field'); // workaround. Require it at the top does not work.
 		const n = this.FIELD_HEIGHT * this.FIELD_WIDTH;
 		let availablePos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, Array.apply(null, {length: n}).map(Function.call, Number)); // generates an array from 0 to n-1
 		let solution = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, []);
@@ -27,11 +27,11 @@ module.exports = class RandomFieldGenerator {
 					const dir = parseInt(Math.random() * 4);
 					const newPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH, []);
 
-					// Zum Bestimmen der neuen Position wird je nach Richtung wird entweder
-					// -i draufaddiert (links) ==> multiplier = -1
-					// i draufaddiert (rechts) ==> multiplier = 1
-					// i * -FIELD_WIDTH draufaddiert (oben) ==> multiplier = -this.FIELD_WIDTH
-					// i * FIELD_WIDTH draufaddiert (unten) ==> multiplier = this.FIELD_WIDTH
+					// to specify the new position (dependent on the direction):
+					// -i add (left) ==> multiplier = -1
+					// i add (right) ==> multiplier = 1
+					// i * -FIELD_WIDTH add (up) ==> multiplier = -this.FIELD_WIDTH
+					// i * FIELD_WIDTH add (down) ==> multiplier = this.FIELD_WIDTH
 					const multipliers = [-1, 1, -this.FIELD_WIDTH, this.FIELD_WIDTH];
 					const multiplier = multipliers[dir];
 
@@ -53,7 +53,7 @@ module.exports = class RandomFieldGenerator {
 					if (pozentialHorizShipNotOver2Rows && availablePos.intersect(newPos).size() === newPos.size() && newPos.size() === size) {
 						foundSolution = true;
 
-						const f = new Feld();
+						const f = new Field();
 						let collisionPos;
 						if (dir <= 1) {
 							collisionPos = f.getCollisionPosOfHorizontalShip(newPos.get().map(Number));

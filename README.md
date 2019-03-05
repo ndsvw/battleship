@@ -1,23 +1,23 @@
 # battleship
-battleship ist ein 100%-Javascript Schiffeversenken-Spiel. 
+battleship is a 100%-Javascript battleship game.
 
-## Logik
-Die Felder werden von unten links nach oben rechts wie folgt durchnummeriert.<br />
-<img src="images/battleship1.png" alt="Logik" width="250px"/>
+## Logic
+The positions of a field are numbered consecutively from the bottom left corner to the top right corner as follows:<br />
+<img src="images/battleship1.png" alt="Logic" width="250px"/>
 
-## Vorbereitung
-Ein Array aus den Positionen der Schiffe erstellen:<br />
-<img src="images/battleship2.png" alt="Vorbereitung" width="250px"/>
+## Preparation
+Create an array of the positions of the ships:<br />
+<img src="images/battleship2.png" alt="Preparation" width="250px"/>
 ```javascript
 let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71, 81];
 ```
 
-## Anwendung
+## How it works:
 
 ### checkShipArray
 ```javascript
 let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71, 81];
-let f = new Feld();
+let f = new Field();
 let res = f.checkShipArray(shipArray);
 // res.status = "success"
 ```
@@ -25,14 +25,14 @@ let res = f.checkShipArray(shipArray);
 ### getShipsOfArray
 ```javascript
 let shipArray = [11, 12, 13, 14, 15, 27, 37, 47, 32, 42, 63, 64, 65, 66, 61, 71, 81];
-let f = new Feld();
+let f = new Field();
 let res = f.getShipsOfArray(shipArray);
 // res.shipArray = [ [ 27, 37, 47 ],[ 32, 42 ],[ 61, 71, 81 ],[ 11, 12, 13, 14, 15 ],[ 63, 64, 65, 66 ] ]
 // res.shipArrayH = [ [ 11, 12, 13, 14, 15 ], [ 63, 64, 65, 66 ] ]
 // res.shipArrayV = [ 27, 37, 47 ], [ 32, 42 ], [ 61, 71, 81 ]
 ```
 
-### ein ganzes Match
+### a whote match
 ```javascript
 let s = new Schiffeversenken();
 
@@ -40,10 +40,10 @@ s.addPlayer("playerID1");
 s.addPlayer("playerID2");
 
 let ships = [ 0, 1, 2, 25, 26, 27, 28, 40, 47, 48, 50, 60, 72, 73, 74, 75, 76 ];
-s.getPlayerById("playerID1").feld.setShips(ships);
+s.getPlayerById("playerID1").field.setShips(ships);
 
 ships = [ 15, 16, 17, 40, 41, 42, 43, 44, 66, 69, 70, 71, 72, 76, 79, 86, 96 ];
-s.getPlayerById("playerID2").feld.setShips(ships);
+s.getPlayerById("playerID2").field.setShips(ships);
 
 s.startTheGame();
 s.whoseTurn = "playerID1";

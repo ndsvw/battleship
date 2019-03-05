@@ -1,5 +1,5 @@
 const PositionSet = require('./positionset');
-const RandomFieldGenerator = require('./random-feld-generator');
+const RandomFieldGenerator = require('./random-field-generator');
 
 module.exports = class Feld {
 	constructor(options) {
@@ -24,10 +24,10 @@ module.exports = class Feld {
 		this.misses = [];
 
 		if (this.REQUIREDSHIPS.length > this.FIELD_WIDTH && this.REQUIREDSHIPS.length > this.FIELD_WIDTH) {
-			throw new Error('Mindestens ein benötigtes Schiff scheint nicht auf das Feld zu passen.');
+			throw new Error('At least 1 ship seems to be larger than the field.');
 		}
 		if (this.SHIPPOSCOUNTER > this.FIELD_WIDTH * this.FIELD_HEIGHT) {
-			throw new Error('Das Feld ist nicht groß genug für alle geforderten Schiffe.');
+			throw new Error('The field is not large enough for all ships.');
 		}
 	}
 
@@ -69,38 +69,38 @@ module.exports = class Feld {
 	}
 
 	checkShipArray(arr) {
-		// Duplikate eliminieren
+		// eliminate duplicates
 		arr = Array.from(new Set(arr));
 
 		// sort ascending
 		arr.sort((a, b) => a - b);
 
-		// Prüfen, ob alle Schiffe platziert wurden
+		// check whether all ships are placed
 		if (arr.length !== this.SHIPPOSCOUNTER) {
 			return {
 				status: 'fail',
-				reason: 'Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
+				reason: 'A problem occured. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
 			};
 		}
 
-		// Prüfen, ob alle Schiffe innerhalb des Spielfelds platziert wurden
+		// Check whether all ships are placed within the field
 		if (arr.some((s) => s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1)) {
 			return {
 				status: 'fail',
-				reason: 'Es ist ein Fehler aufgetreten. Schiffe müssen innerhalb des Spielfelds platziert werden.'
+				reason: 'A problem occured. Schiffe müssen innerhalb des Spielfelds platziert werden.'
 			};
 		}
 
-		// Ein Array mit allen Schiffen bekommen (vorher: Array mit allen Positionen)
+		// getting an array with all ships
 		const data = this.getShipsOfArray(arr);
 		const ships = data.shipArray;
 		const shipsH = data.shipArrayH;
 		const shipsV = data.shipArrayV;
 
-		// Prüfen, ob die Schiffe in Anzahl und Länge den Vorgaben entsprechen
+		// check whether the number of ships and their sized are correct
 		if (ships.length === this.SHIPCOUNTER) {
-			// deep copy von den requirement erstellen und bei jedem Boot der Länge x den den Wert mit dem Inde x um 1 senken.
-			// Danach prüfen, ob alle Werte des Arrays auf 0 sind.
+			// deep copy the requirements; for each ship of length x: decrement the value of the index x.
+			// after that: check if all values of the array are 0.
 			const reqCheckArr = JSON.parse(JSON.stringify(this.REQUIREDSHIPS));
 			for (const s of ships) {
 				reqCheckArr[s.length - 1]--;
@@ -108,37 +108,37 @@ module.exports = class Feld {
 			if (reqCheckArr.some((x) => x !== 0)) {
 				return {
 					status: 'fail',
-					reason: 'Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
+					reason: 'A problem occured. The following ships need to be placed: ' + this.getRequiredShipsListAsText()
 				};
 			}
 		} else {
 			return {
 				status: 'fail',
-				reason: 'Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
+				reason: 'A problem occured. The following ships need to be placed: ' + this.getRequiredShipsListAsText()
 			};
 		}
 
-		// Prüfen, ob alle Teile horiz. Schiff in der selben Reihe liegen ( [8,9,10,11,12] bspw. nicht akzeptieren).
+		// Check whether all parts of the horizontal ships are in the same row (don't accept [8,9,10,11,12] in the default match)
 		for (const s of shipsH) {
 			const row = Math.floor(s[0] / this.FIELD_WIDTH);
 			for (let i = 1; i < s.length; i++) {
 				if (Math.floor(s[i] / this.FIELD_WIDTH) !== row) {
 					return {
 						status: 'fail',
-						reason: 'Es ist ein Fehler aufgetreten. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
+						reason: 'A problem occured. The following ships need to be placed: ' + this.getRequiredShipsListAsText()
 					};
 				}
 			}
 		}
 
 
-		// Gehe alle Schiffe durch und prüfe, ob sie auf verbotenen Positionen stehen
+		// iterate over all ships and check whether they are at forbidden positions
 		const forbiddenPositions = this.getCollisionPos(shipsH, shipsV);
 		for (const s of ships) {
 			if (s.some((pos) => forbiddenPositions.hasPos(pos))) {
 				return {
 					status: 'fail',
-					reason: 'Fehler! Schiffe dürfen nicht miteinander kollidieren!'
+					reason: 'A problem occured. Ships must not collide!'
 				};
 			}
 		}
@@ -153,11 +153,11 @@ module.exports = class Feld {
 		const shipArray = [];
 		const shipArrayH = [];
 		const shipArrayV = [];
-		const arrH = []; // Array, das mit den Positionen aller horizontaler Schiffe gefüllt wird
+		const arrH = []; // Array, that contains all the position of the horizontal ships.
 
-		// Vertikale Schiffe finden.
+		// find vertical ships.
 		for (const s of arr) {
-			// Falls die Position schon Teil eines Schiffs ist, continue
+			// if the position is already part of a ship, continue
 			if (shipArray.some((sh) => sh.includes(s))) {
 				continue;
 			}
@@ -178,16 +178,16 @@ module.exports = class Feld {
 			}
 		}
 
-		// Horizontale Schiffe finden.
+		// find horizontal ships.
 		for (const s of arrH) {
-			// Falls die Position schon Teil eines Schiffs ist, continue
+			// if the position is already part of a ship, continue
 			if (shipArray.some((sh) => sh.includes(s))) {
 				continue;
 			}
 
 			let i = 0;
 			const currentRow = Math.floor(s / this.FIELD_WIDTH);
-			// So lange die aktuell betrachtete Position im Array arr ist && immer noch in der selben Zeile ist, wird i erhöht.
+			// as long as the current position is in arr && if we are still in the same row => increment i
 			while (arr.includes(s + i + 1) && Math.floor((s + i + 1) / this.FIELD_WIDTH) === currentRow) {
 				i++;
 			}
@@ -222,7 +222,7 @@ module.exports = class Feld {
 	getCollisionPosOfHorizontalShip(s) {
 		const collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
 
-		// Positionen vor und hinter dem Schiff sind verboten
+		// position in front of the ship and behind the ship are forbidden.
 		if (s[0] % this.FIELD_WIDTH > 0) {
 			collisionPos.add(s[0] - 1);
 		}
@@ -230,13 +230,13 @@ module.exports = class Feld {
 			collisionPos.add(s[s.length - 1] + 1);
 		}
 
-		// Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
+		// rows next to the ship and in parallel to the ship are forbidden
 		for (let i = 0; i < s.length; i++) {
 			collisionPos.add(s[i] - this.FIELD_WIDTH);
 			collisionPos.add(s[i] + this.FIELD_WIDTH);
 		}
 
-		// Positionen an den Ecken sind evtl. verboten
+		// positions at the corners are (maybe) forbidden
 		if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
 			if (s[0] % this.FIELD_WIDTH > 0) {
 				collisionPos.add(s[0] - (this.FIELD_WIDTH + 1));
@@ -253,11 +253,11 @@ module.exports = class Feld {
 	getCollisionPosOfVerticalShip(s) {
 		const collisionPos = new PositionSet(this.FIELD_HEIGHT, this.FIELD_WIDTH);
 
-		// Positionen vor und hinter dem Schiff sind verboten
+		// position in front of the ship and behind the ship are forbidden.
 		collisionPos.add(s[0] - this.FIELD_WIDTH);
 		collisionPos.add(s[s.length - 1] + this.FIELD_WIDTH);
 
-		// Reihen direkt neben dem Schiff & parallel zum Schiff sind verboten
+		// rows next to the ship and in parallel to the ship are forbidden
 		for (let i = 0; i < s.length; i++) {
 			if (s[i] % this.FIELD_WIDTH > 0) {
 				collisionPos.add(s[i] - 1);
@@ -267,7 +267,7 @@ module.exports = class Feld {
 			}
 		}
 
-		// Positionen an den Ecken sind evtl. verboten
+		// positions at the corners are (maybe) forbidden
 		if (!this.COLLISION_RULES.ALLOW_CORNER_COLLISIONS) {
 			if (s[0] % this.FIELD_WIDTH > 0) {
 				collisionPos.add(s[0] - (this.FIELD_WIDTH + 1));

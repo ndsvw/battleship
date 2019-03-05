@@ -1,8 +1,8 @@
-const Feld = require('./feld');
+const Field = require('./field');
 
 module.exports = class Player {
 	constructor(id) {
 		this.id = id;
-		this.feld = new Feld();
+		this.field = new Field();
 	}
 };
