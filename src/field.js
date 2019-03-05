@@ -79,7 +79,7 @@ module.exports = class Feld {
 		if (arr.length !== this.SHIPPOSCOUNTER) {
 			return {
 				status: 'fail',
-				reason: 'A problem occured. Es müssen folgende Schiffe platziert werden: ' + this.getRequiredShipsListAsText()
+				reason: 'A problem occured. The following ships need to be placed: ' + this.getRequiredShipsListAsText()
 			};
 		}
 
@@ -87,7 +87,7 @@ module.exports = class Feld {
 		if (arr.some((s) => s < 0 || s > this.FIELD_HEIGHT * this.FIELD_WIDTH - 1)) {
 			return {
 				status: 'fail',
-				reason: 'A problem occured. Schiffe müssen innerhalb des Spielfelds platziert werden.'
+				reason: 'A problem occured. Ships need to be placed within the field.'
 			};
 		}
 

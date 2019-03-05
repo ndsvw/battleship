@@ -1,7 +1,7 @@
 const Player = require('./player');
 const Field = require('./field');
 
-module.exports = class Schiffeversenken {
+module.exports = class Battleship {
 	constructor(options) {
 		this.options = options || {};
 		this.players = [];

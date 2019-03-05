@@ -1,9 +1,9 @@
 const expect = require('chai').expect;
 const Player = require('../src/player');
-const Schiffeversenken = require('../src/battleship');
+const Battleship = require('../src/battleship');
 
-createExampleSchiffeversenken = () => {
-	const s = new Schiffeversenken();
+createExampleBattleship = () => {
+	const s = new Battleship();
 
 	s.addPlayer('playerID1');
 	s.addPlayer('playerID2');
@@ -17,14 +17,14 @@ createExampleSchiffeversenken = () => {
 	return s;
 };
 
-describe('schiffeversenken...', () => {
+describe('battleship...', () => {
 	it('.getPlayerById() should work,', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 		s.getPlayerById('playerID1').id.should.be.equal('playerID1');
 	});
 
 	it('.getOpponent() should work', () => {
-		const s = new Schiffeversenken();
+		const s = new Battleship();
 
 		s.addPlayer('playerID1');
 		s.addPlayer('playerID2');
@@ -33,7 +33,7 @@ describe('schiffeversenken...', () => {
 	});
 
 	it('should work (whole game)', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
@@ -50,7 +50,7 @@ describe('schiffeversenken...', () => {
 	});
 
 	it('should work (whole game) with other options', () => {
-		const s = new Schiffeversenken({
+		const s = new Battleship({
 			SAMEPLAYERSTURNAFTERHIT: false,
 			REQUIREDSHIPS: [0, 3],
 			FIELD_HEIGHT: 5,
@@ -85,7 +85,7 @@ describe('schiffeversenken...', () => {
 	});
 
 	it('should fill the arrays correctly during a match', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
 
@@ -106,9 +106,9 @@ describe('schiffeversenken...', () => {
 	});
 });
 
-describe('schiffeversenken.startTheGame()', () => {
+describe('battleship.startTheGame()', () => {
 	it('should work with 2 player', () => {
-		const s = new Schiffeversenken();
+		const s = new Battleship();
 
 		s.addPlayer('playerID1');
 		s.addPlayer('playerID2');
@@ -123,13 +123,13 @@ describe('schiffeversenken.startTheGame()', () => {
 	});
 
 	it('should not work with less than 2 player', () => {
-		const s = new Schiffeversenken();
+		const s = new Battleship();
 		s.addPlayer('playerID1');
 		s.startTheGame().status.should.not.be.equal('success');
 	});
 
 	it('should not work if a player did not place the ships', () => {
-		const s = new Schiffeversenken();
+		const s = new Battleship();
 
 		s.addPlayer('playerID1');
 		s.addPlayer('playerID2');
@@ -141,9 +141,9 @@ describe('schiffeversenken.startTheGame()', () => {
 	});
 });
 
-describe('schiffeversenken.shoot()', () => {
+describe('battleship.shoot()', () => {
 	it('should interpret a hit as a hit', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
@@ -152,7 +152,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should interpret a missing as a missing', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
@@ -161,7 +161,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should reject a shot if the game has not started yet', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.whoseTurn = 'playerID1';
 
@@ -169,7 +169,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should reject a shot if the game is over', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
@@ -179,7 +179,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should reject a n^th (n>1) shot on the same pos', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.whoseTurn = 'playerID1';
 		s.shoot('playerID1', 1);
@@ -189,7 +189,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should reject a shot if it is not the source`s turn', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 
 		s.whoseTurn = 'playerID1';
 
@@ -197,7 +197,7 @@ describe('schiffeversenken.shoot()', () => {
 	});
 
 	it('should return shipDestroyed: true/false correctly', () => {
-		const s = createExampleSchiffeversenken();
+		const s = createExampleBattleship();
 		s.startTheGame();
 		s.whoseTurn = 'playerID1';
 

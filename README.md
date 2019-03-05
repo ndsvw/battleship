@@ -34,7 +34,7 @@ let res = f.getShipsOfArray(shipArray);
 
 ### a whote match
 ```javascript
-let s = new Schiffeversenken();
+let s = new Battleship();
 
 s.addPlayer("playerID1");
 s.addPlayer("playerID2");
