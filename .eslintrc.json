@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true
+    },
+    "extends": "google",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "indent": [
+            2,
+            "tab"
+        ],
+        "no-tabs": 0,
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "arrow-spacing": 1,
+        "space-before-blocks": 1,
+        "space-in-parens": 1,
+        "space-infix-ops": 1,
+        "space-unary-ops": 1,
+        "prefer-arrow-callback": 1,
+        "new-cap": 0,
+        "max-len": [
+            2,
+            {
+                "code": 500,
+                "tabWidth": 2,
+                "ignoreUrls": true
+            }
+        ],
+        "require-jsdoc": 0
+    }
+}
